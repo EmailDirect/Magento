@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+	<placeholders>
+		<emaildirect_integration_signup>
+			<block>emaildirect/signup</block>
+			<name>emaildirect_signup</name>
+			<placeholder>EMAILDIRECT_INTEGRATION_SIGNUP_CACHE</placeholder>
+			<container>EmailDirect_Integration_Model_Container_Signup</container>
+			<cache_life>1</cache_life>
+		</emaildirect_integration_signup>
+	</placeholders>
+</config>

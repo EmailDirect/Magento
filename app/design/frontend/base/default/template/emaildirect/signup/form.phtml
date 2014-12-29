@@ -1,0 +1,58 @@
+<div id='emaildirect_signup_placeholder'>
+	
+</div>
+<script type='text/javascript'>
+
+var params = window.location.search.toQueryParams();
+
+var signup_enabled = <?php echo $this->isSignupEnabled(); ?>;
+var test_mode = params.signup_test ? true : false;
+var signup_delay = params.delay ? params.delay * 1000 : <?php echo $this->getSignupDelay(); ?>;
+
+console.log(test_mode);
+
+function showSignup(data)
+{
+	$('emaildirect_signup_placeholder').update(data);
+	$$('body')[0].addClassName('emaildirect_signup_open');
+	//$('emaildirect_signup_background').show();
+}
+
+function closeSignup()
+{
+	$$('body')[0].removeClassName('emaildirect_signup_open');
+	$('emaildirect_signup_background').hide();
+
+	if (!test_mode)
+	{
+		var CookieDate = new Date;
+		
+		var CurrentDate = Math.round(+new Date()/1000);
+		CookieDate.setFullYear(CookieDate.getFullYear( ) + 5);
+		Mage.Cookies.set('ed_signup', CurrentDate, CookieDate);
+	}
+
+	return false;
+}
+
+function showSignupCheck()
+{
+	var url = '<?php echo $this->getSignupCheckUrl() ?>' + window.location.search;
+	new Ajax.Request(url, {
+		onSuccess: function(transport)
+		{
+			var json = transport.responseText.evalJSON();
+			
+			if (json.can_show == true)
+				showSignup(json.html_content);
+		}
+	});
+}
+
+document.observe("dom:loaded", function()
+{
+	if (signup_enabled || test_mode)
+		window.setTimeout("showSignupCheck()",signup_delay);
+});
+
+</script>

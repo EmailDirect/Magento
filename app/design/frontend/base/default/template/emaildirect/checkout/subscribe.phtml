@@ -1,0 +1,32 @@
+<?php
+	$check = $this->checkStatus();
+	$auto  = (($check === 1) OR ($check === 3));
+?>
+<script type="text/javascript">
+addSubscribeToPost = function (element)
+{
+	if ($('emaildirect-subscribe'))
+		$('emaildirect-subscribe').remove();
+
+	if (element.checked)
+	{
+		var inputer = new Element('input', { name: "emaildirect_subscribe", id: "emaildirect-subscribe", value: "1", type: "hidden" });
+		try
+		{
+			Element.insert(Form.findFirstElement(payment.form), inputer);
+		}
+		catch (notelem)
+		{
+			$("co-payment-form").insert(inputer);
+		}
+	}
+}
+</script>
+<div class="buttons-set"<?php if($check === 3): ?> style="display:none;"<?php endif;?>>
+	<input<?php if($auto): ?> checked="checked"<?php endif;?> type="checkbox" onchange="addSubscribeToPost(this);" name="emaildirect_trigger" id="emaildirect-trigger" value="1" title="<?php echo $this->htmlEscape($this->__('Sign Up for Newsletter')) ?>" class="checkbox" />
+	<label for="emaildirect-trigger"><?php echo $this->htmlEscape($this->__('Sign Up for Newsletter')) ?></label>
+</div>
+
+<script type="text/javascript">
+	addSubscribeToPost($('emaildirect-trigger'));
+</script>

@@ -1,0 +1,47 @@
+body.emaildirect_signup_open { overflow: hidden; }
+
+#emaildirect_signup_background {
+background-color: black;
+width: 100%;
+min-height: 100%;
+overflow: hidden;
+float: absolute;
+position: fixed;
+z-index: 10000;
+top: 0;
+left: 0;
+color: white;
+zoom: 1;
+}
+
+#emaildirect_signup {
+background-color: white;
+color: black;
+font-size: 16px;
+border: 1px solid gray;
+padding: 20px;
+display:block;
+margin: auto;
+width: auto;
+position: absolute;
+top: 0; left: 0; bottom: 0; right: 0;
+border-radius: 15px;
+z-index: 10001;
+zoom: 1;
+}
+
+#emaildirect_signup iframe
+{
+	border: none;
+}
+
+#emaildirect_signup_close {
+  background: url(images/window_close.png);
+  cursor: pointer;
+  float: right;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 16px;
+  height: 16px;
+}

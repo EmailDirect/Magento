@@ -1,0 +1,30 @@
+<?php 
+	$element = $this->getElement();
+	
+	$status = $this->getLoggingStatus();
+	
+	//Zend_debug::dump($status);
+	//$enabled = $this->isLoggingEnabled();
+	$enabled_for_store = $this->isEnabledForStore();
+	//$store =  Mage::getSingleton('adminhtml/config_data')->getStore();
+	
+	
+	$enabled = $status['enabled'];
+?>
+<div id="<?php echo $this->getElement()->getHtmlId(); ?>" style='display:none'></div>
+<span class='<?php echo $enabled ? "ab_ok" : "ab_ng" ?>'><?php echo $enabled ? "Enabled" : "Disabled" ?></span>
+<?php if ($enabled): ?>
+	<?php if (!$enabled_for_store): ?><span class='ab_ng'>(Not for this store!)</span><?php endif; ?>
+<div id='emaildirect_trouble_details'>
+	<table>
+		<tr>
+			<td>Start Date:</td>
+			<td><?php echo $this->getStartDate() ?></td>
+		</tr>
+		<tr>
+			<td>Log File:</td>
+			<td><?php echo $this->getLogInfo() ?></td>
+		</tr>
+	</table>
+</div>	
+<?php endif; ?>

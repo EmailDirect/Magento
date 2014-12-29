@@ -1,0 +1,12 @@
+<a href='http://www.emaildirect.com' target='_blank'><img src='<?php echo $this->getSkinUrl('emaildirect/logo.png') ?>' style='width:225px; margin-bottom: 10px;'></a>
+<p>Customer Data and Purchase Behavior Sync by <a href='http://www.emaildirect.com' target='_blank'>www.emaildirect.com</a></p>
+<p>Copyright &copy;<?php echo date("Y") ?></p>
+<br />
+<p>Download our <a href='http://emaildirect.com/downloads/papers/magentoSetupGuide.pdf'>Magento Setup Guide</a> for detailed information on each feature or view the <a href="<?php echo $this->getUrl('ed_integration/admin_troubleshooting/index') ?>">Help</a> page.</p>
+<p>Please contact support (<a href='mailto:support@emaildirect.com'>support@emaildirect.com</a>) with any questions that you have.</p>
+<br />
+<?php if ($this->isWebsiteConfig()): ?>
+<strong>EmailDirect can only be configured at the Store or Default Level</strong>
+<?php else: ?>
+<hr />
+<?php endif; ?>

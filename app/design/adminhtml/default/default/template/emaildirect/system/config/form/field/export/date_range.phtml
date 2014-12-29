@@ -1,0 +1,144 @@
+<div id="<?php echo $this->getElement()->getHtmlId(); ?>" style='display:none'></div>
+<span>From: </span><input style="width: 75px;" type="text" name="order_export_from" id="order_export_from" value="<?php echo $this->getFromDate() ?>" class="input-text"> 
+<img src="<?php echo $this->getSkinUrl('images/grid-cal.gif'); ?>" alt="Select From Date" class="v-middle" title="Select From Date" id="from_trig">
+<span>&nbsp;&nbsp;&nbsp; to: </span>
+<input style="width: 75px;" type="text" name="order_export_to" id="order_export_to" value="<?php echo $this->getToDate() ?>" class="input-text">
+<img src="<?php echo $this->getSkinUrl('images/grid-cal.gif'); ?>" alt="Select To Date" class="v-middle" title="Select To Date" id="to_trig">
+<div class='ed_orders_found'>
+<strong>Orders Found: </strong><span id='orders_found'><?php echo $this->getOrdersCount() ?></span>
+</div>
+<script type='text/javascript'>
+	var store = <?php echo Mage::helper('emaildirect')->getAdminStore(); ?>;
+	var start_from = '<?php echo $this->getFromDate() ?>';
+	var start_to = '<?php echo $this->getToDate() ?>';
+	var orders_count = '<?php echo $this->getOrdersCount(); ?>';
+	
+	var check_from = parseDate(start_from);
+	
+	function setButtonState()
+	{
+		if (orders_count == 0 || orders_count == 'Unknown')
+			toggleValueElements({checked:true}, $('emaildirect_export_orders').parentNode);
+		else
+			toggleValueElements({checked:false}, $('emaildirect_export_orders').parentNode);
+	}
+	
+	function parseDate(date_string)
+	{
+		var date_parts = date_string.split('-');
+		return new Date(date_parts[0],date_parts[1] - 1,date_parts[2]);
+	}
+	
+	var calendarSetupObject = {
+		inputField  	: "order_export_from",
+		ifFormat    	: "%Y-%m-%d",
+		showTime    	: "false",
+		button      	: "from_trig",
+		align       	: "Bl",
+		singleClick 	: true,
+		disableFunc		: function(date)
+		{
+			if (date < check_from)
+				return true;
+		}
+	}
+	Calendar.setup(calendarSetupObject);
+	
+	var calendarSetupObject2 = {
+		inputField  	: "order_export_to",
+		ifFormat    	: "%Y-%m-%d",
+		showTime			: "false",
+		button      	: "to_trig",
+		align       	: "Bl",
+		singleClick 	: true,
+		disableFunc		: function(date)
+		{
+			if (date < check_from)
+				return true;
+		}
+	}
+	Calendar.setup(calendarSetupObject2);
+	
+	var url = '<?php echo $this->getUrl("ed_integration/admin_export/count/"); ?>';
+   
+   $('emaildirect_export_include_already_sent').observe('change', function(event)
+	{
+		if (!validateDates())
+			return;
+		
+  		dateRangeChange();
+	});
+   
+	$('order_export_from').observe('change', function(event)
+	{
+		if (!validateDates())
+			return;
+		
+  		dateRangeChange();
+	});
+	
+	$('order_export_to').observe('change', function(event)
+	{
+		if (!validateDates())
+			return;
+		
+		// Check if the date is < to date
+  		dateRangeChange();
+	});
+
+function validateDates()
+{
+	// Check if the date is < starting date or > to date
+	var from = parseDate($('order_export_from').value);
+	var to = parseDate($('order_export_to').value);
+	
+	if (from < check_from)
+	{
+		$('order_export_from').value = start_from;
+		return false;
+	}
+	
+	if (to < check_from)
+	{
+		$('order_export_to').value = start_to;
+		return false;
+	}
+	
+	if (from > to)
+	{
+		var temp = $('order_export_from').value;
+		
+		$('order_export_from').value = $('order_export_to').value;
+		$('order_export_to').value = temp;
+	}
+	
+	return true;
+}
+
+function dateRangeChange()
+{
+	var from = $('order_export_from').value;
+	var to = $('order_export_to').value;
+	var include = $('emaildirect_export_include_already_sent').value;
+	
+	$('orders_found').update("???");
+	
+	new Ajax.Request(url + (url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ), {
+            parameters : {from: from, to: to, include: include, store: store},
+            method     : 'post',
+            loaderArea : false,
+            onSuccess  : function(transport)
+            {
+            	//console.log(transport.responseText);
+                var response = transport.responseText;
+                orders_count = response;
+                $('orders_found').update(response);
+                setButtonState();
+            }
+        });
+}
+
+document.observe("dom:loaded", function() {
+	setButtonState();
+});
+</script>

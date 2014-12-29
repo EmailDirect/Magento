@@ -1,0 +1,62 @@
+<?php
+	$valid = $this->isValid();
+ 
+	$element = $this->getElement();
+	
+	//$enabled = $this->isLoggingEnabled();
+?>
+<div id="<?php echo $this->getElement()->getHtmlId(); ?>" style='display:none'></div>
+<div class='emaildirect_api_status'>
+<span id='emaildirect_status_indicator' class='<?php if ($valid) echo "apikey_valid"; else echo "apikey_invalid" ?>'><?php if ($valid) echo "Valid"; else echo "Invalid" ?></span>
+
+<input type='hidden' name='groups[general][fields][old_apikey][value]' value='<?php echo $this->getCurrentApiKey(); ?>' />
+<button id='apikey_validator' onclick='return performValidation();'>Validate</button>
+</div>
+
+<script type='text/javascript'>
+
+validate_url = '<?php echo $this->getUrl('ed_integration/admin_troubleshooting/validate'); ?>';
+
+function performValidation()
+{
+	var apikey = $("emaildirect_general_apikey").value;
+	
+	var indicator = $("emaildirect_status_indicator");
+	
+	indicator.update("Validating...");
+	indicator.removeClassName("apikey_valid");
+	indicator.removeClassName("apikey_invalid");
+	indicator.addClassName("apikey_validating");
+	
+	new Ajax.Request(validate_url + (validate_url.match(new RegExp('\\?')) ? '&isAjax=true' : '?isAjax=true' ), 
+	{
+		parameters : {apikey: apikey},
+		method     : 'post',
+		onSuccess  : function(transport)
+		{
+			if (transport.responseText.isJSON())
+			{
+				var response = transport.responseText.evalJSON()
+				
+				if (response.valid)
+				{
+					indicator.removeClassName("apikey_validating");
+					indicator.addClassName("apikey_valid");
+					
+					$("emaildirect_status_indicator").update("Valid");
+				}
+				else
+				{
+					indicator.removeClassName("apikey_validating");
+					indicator.addClassName("apikey_invalid");
+					$("emaildirect_status_indicator").update("Invalid");
+				}
+				
+				console.log(response);
+      	}
+      }
+	});
+	
+	return false;
+}
+</script>

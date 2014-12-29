@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+	
+	<default>
+		<reference name="before_body_end">
+			<block type="emaildirect/signup" name="emaildirect_signup" as="emaildirect_signup" template="emaildirect/signup/form.phtml"/>
+			<block type="emaildirect/capture" name="emaildirect_capture" as="emaildirect_capture" template="emaildirect/capture/email.phtml"/>
+		</reference>
+		<reference name="head">
+			<action method="addCss" ifconfig="emaildirect/general/active"><stylesheet>emaildirect/emaildirect.css</stylesheet></action>
+		</reference>
+	</default>
+	
+	<checkout_onepage_review>
+		<reference name="checkout.onepage.review.info.items.after">
+			<block type="emaildirect/checkout_subscribe" name="emaildirect.subscribe" template="emaildirect/checkout/subscribe.phtml" />
+		</reference>
+	</checkout_onepage_review>
+	
+	<!-- Customer -->
+	<customer_account>
+		<reference name="head">
+			<action method="addItem" ifconfig="emaildirect/general/active"><type>skin_js</type><name>emaildirect/integration.js</name><params/></action>
+		</reference>
+		<reference name="customer_account_navigation">
+			<action method="addLink" ifconfig="emaildirect/general/active" translate="label" module="emaildirect">
+				<name>emaildirect</name>
+				<path>emaildirect/customer_account/index</path>
+				<label>Newsletter Subscriptions</label>
+			</action>
+		</reference>
+	</customer_account>
+	<customer_account_index>
+		<reference name="my.account.wrapper">
+			<reference name="customer_account_dashboard">
+				<block type="emaildirect/customer_account_dashboard_info" name="emaildirect.customer_account_dashboard_info" as="info" template="customer/account/dashboard/info.phtml">
+					<action method="setTemplate" ifconfig="emaildirect/general/active">
+   					<template>emaildirect/customer/account/dashboard/info.phtml</template>
+					</action>
+				</block>
+			</reference>
+		</reference>
+	</customer_account_index>
+
+	<emaildirect_customer_account_index>
+      <label>Customer My Account Emaildirect</label>
+      <update handle="customer_account"/>
+      <reference name="my.account.wrapper">
+			<block type="emaildirect/customer_account_lists" name="emaildirect_additionallists" template="emaildirect/customer/account/lists.phtml" />
+			<block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
+      </reference>
+	</emaildirect_customer_account_index>
+	<!-- Customer -->
+</layout>

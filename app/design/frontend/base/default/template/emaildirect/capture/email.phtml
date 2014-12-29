@@ -1,0 +1,13 @@
+<script type='text/javascript'>
+document.observe("dom:loaded", function()
+{
+	<?php foreach ($this->getFields() as $field): ?>
+	if ($('<?php echo $field ?>')) Event.observe('<?php echo $field ?>','change', capture);
+	<?php endforeach; ?>
+});
+
+function capture(event)
+{
+	new Ajax.Request('<?php echo $this->getCaptureUrl() ?>', { method:'post', parameters: {email: $(this).getValue()} });
+}
+</script>

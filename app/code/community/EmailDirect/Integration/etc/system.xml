@@ -1,0 +1,646 @@
+<?xml version="1.0"?>
+<config>
+	<sections>
+		<emaildirect translate="label" module="emaildirect">
+			<class>emaildirect-section</class>
+			<label>EmailDirect Configuration</label>
+			<header_css>emaildirect-header</header_css>
+			<tab>customer</tab>
+			<sort_order>404</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+				<hint>
+					<frontend_model>emaildirect/adminhtml_system_config_fieldset_hint</frontend_model>
+					<sort_order>0</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+				</hint>				
+				<general translate="label comment">
+					<label>General</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>660</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<expanded>1</expanded>
+					<fields>
+						<info translate="label">
+							<label>Info</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_info</frontend_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</info>
+						<heading_general translate="label">
+							<label>General Configuration</label>
+							<frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+							<sort_order>5</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+                  </heading_general>
+						<active translate="label">
+							<label>Enabled</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+						</active>
+						<apikey translate="label comment">
+							<label>API Key</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enter your EmailDirect API Key here</comment>
+						</apikey>
+						<apikey_validation translate="label">
+							<label>API Key Status</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_api</frontend_model>
+							<sort_order>22</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment></comment>
+						</apikey_validation>
+						<apikey_instructions>
+							<label>Get your API Key</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_note</frontend_model>
+							<sort_order>25</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+						</apikey_instructions>
+						
+						<checkout_subscribe translate="label comment">
+							<label>Subscribe On Checkout</label>
+							<frontend_type>select</frontend_type>
+							<source_model>emaildirect/system_config_source_checkoutsubscribe</source_model>
+							<sort_order>50</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment><![CDATA[Show Newsletter Subscribe checkbox in the last Checkout Step (Order Review). <span class='warning'>This may not work if your checkout has been customized!</span>]]></comment>
+						</checkout_subscribe>
+						<publication translate="label comment">
+							<label>Publication</label>
+							<frontend_type>select</frontend_type>
+							<source_model>emaildirect/system_config_source_publication</source_model>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<comment>This is the Publication that emails will be subscribed to and is required</comment>
+						</publication>
+						<additional_lists translate="label comment">
+							<label>Additional Lists</label>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>emaildirect/system_config_source_additionallist</source_model>
+							<sort_order>70</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<comment>Choose one or more Lists to allow your subscribers more options when subscribing.  Not required</comment>
+						</additional_lists>
+						<source translate="label comment">
+							<label>Source</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>80</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>0</can_be_empty>
+							<comment><![CDATA[This is the main source used with the Magento General Subscription.<br/> If you leave this field blank <strong>Magento</strong> is used]]></comment>
+						</source>
+						<override_source translate="label">
+							<label>Override Source</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>90</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>If set to "Yes", the source will be updated when an existing customer is updated.</comment>
+						</override_source>
+						
+						<heading_mappings translate="label">
+                      <label>Field Mappings</label>
+                      <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                      <sort_order>100</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>0</show_in_website>
+                      <show_in_store>1</show_in_store>
+                  </heading_mappings>
+						
+						<address_fields translate="label comment">
+							<label>Address Fields Mapping</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_addressmapfields</frontend_model>
+							<backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+							<sort_order>110</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+						</address_fields>
+						<map_fields translate="label comment">
+							<label>Customer Fields Mapping</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_mapfields</frontend_model>
+							<backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+							<sort_order>120</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+						</map_fields>
+						<shipping_fields translate="label comment">
+							<label>Shipping Fields Mapping</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_shippingmapfields</frontend_model>
+							<backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+							<sort_order>130</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+						</shipping_fields>
+						
+						<heading_orders translate="label">
+                      <label>Orders</label>
+                      <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                      <sort_order>200</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>0</show_in_website>
+                      <show_in_store>1</show_in_store>
+                  </heading_orders>
+						<sendorder translate="label">
+							<label>Send orders to EmailDirect</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>210</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Sends all completed orders to EmailDirect Purchase Behavior for detailed reporting, filtering and targeting</comment>
+						</sendorder>
+						<send_field>
+							<label>Send orders based on</label>
+							<frontend_type>select</frontend_type>
+							<source_model>emaildirect/system_config_source_send_field</source_model>
+							<sort_order>212</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><sendorder>1</sendorder></depends>
+						</send_field>
+						<send_states translate="label comment">
+							<label>State options</label>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>emaildirect/system_config_source_states</source_model>
+							<sort_order>220</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Choose one or more States to determine when an order will be sent to EmailDirect. Orders will only be sent the first time one of these states are encountered.</comment>
+							<depends><sendorder>1</sendorder><send_field>state</send_field></depends>
+						</send_states>
+						<send_statuses translate="label comment">
+							<label>Status options</label>
+							<frontend_type>multiselect</frontend_type>
+							<source_model>emaildirect/system_config_source_statuses</source_model>
+							<sort_order>225</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Choose one or more Statuses to determine when an order will be sent to EmailDirect. Orders will only be sent the first time one of these statuses are encountered.</comment>
+							<depends><sendorder>1</sendorder><send_field>status</send_field></depends>
+						</send_statuses>
+						<batch_enabled>
+							<label>Send orders in the background?</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>230</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>If selected, orders will be sent in batches of up to 200 every hour through a cron process. Note that only orders up to a week old from the present date will be processed.  To process older orders please use the order export function below.</comment>
+							<depends><sendorder>1</sendorder></depends>
+						</batch_enabled>
+						<batch_size>
+							<label>Number of orders to process each time the batch is run</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>250</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Leave blank to send all (not recommended).</comment>
+							<depends><batch_enabled>1</batch_enabled></depends>
+						</batch_size>
+						<batch_only>
+							<label>Send in background only?</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>240</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Orders will only be sent in the background process.</comment>
+							<depends><batch_enabled>1</batch_enabled></depends>
+						</batch_only>
+						
+						<save_latest_order translate="label">
+							<label>Save Latest Order Information</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>230</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Save information from the latest order along with the first 3 products from that order</comment>
+							<depends><sendorder>1</sendorder></depends>
+						</save_latest_order>
+						
+						<heading_abandoned translate="label">
+                      <label>Abandoned Carts</label>
+                      <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                      <sort_order>300</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>0</show_in_website>
+                      <show_in_store>1</show_in_store>
+                  </heading_abandoned>
+						
+						<sendabandoned translate="label">
+							<label>Add Abandoned Carts To EmailDirect</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>310</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>This will add any abandoned shopping carts to the EmailDirect database with AbandonedDate and AbandonedURL database fields. These fields can be used with Workflows to time your own Abandoned Shopping Cart emails or send a series of emails.  This allows for complete customization of the email.</comment>
+						</sendabandoned>
+						<abandonedtime translate="label comment">
+							<label>Abandoned Time</label>
+							<frontend_type>select</frontend_type>
+							<source_model>emaildirect/system_config_source_time</source_model>
+							<sort_order>320</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>How long before a cart is considered abandoned?</comment>
+							<depends><sendabandoned>1</sendabandoned></depends>
+						</abandonedtime>
+						<abandonedpublication translate="label comment">
+							<label>Abandoned Publication</label>
+							<frontend_type>select</frontend_type>
+							<source_model>emaildirect/system_config_source_publication</source_model>
+							<sort_order>330</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<comment>This is the Publication that you will put abandoned shoppers into</comment>
+							<depends><sendabandoned>1</sendabandoned></depends>
+						</abandonedpublication>
+						<abandonedlist translate="label comment">
+							<label>Abandoned List</label>
+							<frontend_type>select</frontend_type>
+							<source_model>emaildirect/system_config_source_abandonedlist</source_model>
+							<sort_order>340</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<comment>This is the List that you will put abandoned shoppers into. Not Required.</comment>
+							<depends><sendabandoned>1</sendabandoned></depends>
+						</abandonedlist>
+						<capture_enabled translate="label">
+							<label>Capture guest emails?</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>350</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>When enabled, this feature will capture guest emails from various forms within the site to be used with abandoned carts.</comment>
+							<depends><sendabandoned>1</sendabandoned></depends>
+						</capture_enabled>
+						
+						<!-- SEQUENCES -->
+						<heading_sequence translate="label">
+                      <label>Abandoned Cart Sequences</label>
+                      <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                      <sort_order>360</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>0</show_in_website>
+                      <show_in_store>1</show_in_store>
+                      <depends><sendabandoned>1</sendabandoned></depends>
+               	</heading_sequence>
+						<abandonedsequence_enabled>
+							<label>Add a sequence value to each abandoned cart?</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>370</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>This will allow you to assign a sequence of values to your subscribers, one for each abandoned cart.</comment>
+							<depends><sendabandoned>1</sendabandoned></depends>
+						</abandonedsequence_enabled>
+						<abandonedsequence_field translate="label comment">
+							<label>Sequence Database Field</label>
+							<frontend_type>select</frontend_type>
+							<source_model>emaildirect/system_config_source_sequence</source_model>
+							<sort_order>380</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<comment>This is the database field in EmailDirect that the sequence will be stored in.</comment>
+							<depends><sendabandoned>1</sendabandoned><abandonedsequence_enabled>1</abandonedsequence_enabled></depends>
+						</abandonedsequence_field>
+						<abandonedsequence_options translate="label comment">
+							<label>Sequence Options</label>
+							<frontend_type>textarea</frontend_type>
+							<sort_order>390</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<comment>Enter one sequence per line to be appended.</comment>
+							<depends><sendabandoned>1</sendabandoned><abandonedsequence_enabled>1</abandonedsequence_enabled></depends>
+						</abandonedsequence_options>
+						
+						<!-- signup -->
+						<heading_signup translate="label">
+                      <label>EmailDirect Signup Form</label>
+                      <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                      <sort_order>400</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>0</show_in_website>
+                      <show_in_store>1</show_in_store>
+               	</heading_signup>
+						<signup_enabled>
+							<label>Show EmailDirect Signup form?</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>410</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>This will allow you to show an EmailDirect signup form in a popup.</comment>
+						</signup_enabled>
+						<signup_url>
+							<label>URL to Signup Form</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>420</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>URL to the EmailDirect Signup Form.</comment>
+							<depends><signup_enabled>1</signup_enabled></depends>
+						</signup_url>
+						<signup_delay>
+							<label>Delay before showing</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>430</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><signup_enabled>1</signup_enabled></depends>
+							<comment>How many seconds before the signup form is shown</comment>
+						</signup_delay>
+						<signup_recurrence>
+							<label>Recurrence</label>
+							<frontend_type>select</frontend_type>
+							<source_model>emaildirect/system_config_source_signup_recurrence</source_model>
+							<sort_order>440</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Time until Signup Form displays again, per visitor.</comment>
+							<depends><signup_enabled>1</signup_enabled></depends>
+						</signup_recurrence>
+						<signup_width>
+							<label>Width of Form</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>450</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><signup_enabled>1</signup_enabled></depends>
+						</signup_width>
+						<signup_height>
+							<label>Height of Form</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>460</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><signup_enabled>1</signup_enabled></depends>
+						</signup_height>
+						<signup_opacity>
+							<label>Opacity of background</label>
+							<frontend_type>select</frontend_type>
+							<source_model>emaildirect/system_config_source_signup_opacity</source_model>
+							<sort_order>470</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<depends><signup_enabled>1</signup_enabled></depends>
+						</signup_opacity>
+						<signup_test_button>
+							<label>Test Signup Form</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_signup_test</frontend_model>
+							<sort_order>480</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<comment><![CDATA[Test the signup form popup (opens in new window).<br />Note: "Show EmailDirect Signup form" must be set to "Yes" and the configuration saved in order to perform a signup test.]]></comment>
+							<depends><signup_enabled>1</signup_enabled></depends>
+						</signup_test_button>
+						<signup_activated>
+							<label>Activate Signup Form?</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>490</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Do not activate this form until it has been tested.</comment>
+							<depends><signup_enabled>1</signup_enabled></depends>
+						</signup_activated>
+						
+						<!-- Wishlist -->
+						<heading_wishlist translate="label">
+                      <label>Wishlist</label>
+                      <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                      <sort_order>600</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>0</show_in_website>
+                      <show_in_store>1</show_in_store>
+               	</heading_wishlist>
+               	<wishlist_enabled>
+							<label>Activate Wish List Alerts?</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>610</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Send subscriber Wishlist URL and their most recent Wishlist Date to your EmailDirect database.</comment>
+						</wishlist_enabled>
+						
+					</fields>
+				</general>
+				<export translate="label comment">
+					<label>Export Options</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>670</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>1</show_in_store>
+					<expanded>1</expanded>
+					<fields>
+						<heading_orders translate="label">
+                      <label>Order Exports</label>
+                      <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                      <sort_order>5</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>0</show_in_website>
+                      <show_in_store>1</show_in_store>
+                  </heading_orders>
+                  <include_already_sent translate="label">
+							<label>Include orders already sent?</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>5</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>This option allows you to include or exclude orders that have been sent directly to EmailDirect through the normal order creation process.</comment>
+						</include_already_sent>
+						<export_orders_range>
+							<label>Order Date Range</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_export_range</frontend_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<comment>Only orders within the past year can be exported</comment>
+						</export_orders_range>
+						<export_orders_button>
+							<label>Export Orders</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_export_orders</frontend_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<comment>Export Orders to CSV and send the CSV file to Emaildirect (opens in new window)</comment>
+						</export_orders_button>
+						
+						<heading_products translate="label">
+                      <label>Category Exports</label>
+                      <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                      <sort_order>30</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>0</show_in_website>
+                      <show_in_store>1</show_in_store>
+                  </heading_products>
+						<include_disabled translate="label">
+							<label>Include disabled Products?</label>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+						</include_disabled>
+						<batch translate="label comment">
+							<label>Batch Size</label>
+							<frontend_type>select</frontend_type>
+							<source_model>emaildirect/system_config_source_export_batch</source_model>
+							<sort_order>50</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Number of Products to Export at a time (SAVE CONFIG BEFORE EXPORTING)</comment>
+						</batch>
+						<export_button>
+							<label>Export Products</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_export_products</frontend_model>
+							<sort_order>60</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<can_be_empty>1</can_be_empty>
+							<comment>Export Products to CSV and send the CSV file to Emaildirect (opens in new window)</comment>
+						</export_button>
+						<export_na>
+							<label>Export Not Available</label>
+							<frontend_type>label</frontend_type>
+							<sort_order>1000</sort_order>
+							<show_in_default>0</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>0</show_in_store>
+							<comment>Please setup your API Key to perform an Export</comment>
+							<!--<depends><setup>0</setup></depends>-->	
+						</export_na>
+					</fields>
+				</export>
+				<troubleshooting translate="label comment">
+					<label>Troubleshooting</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>900</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>0</show_in_website>
+					<show_in_store>1</show_in_store>
+					<expanded>1</expanded>
+					<fields>
+						<heading_logging translate="label">
+                      <label>Logging</label>
+                      <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                      <sort_order>10</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>0</show_in_website>
+                      <show_in_store>1</show_in_store>
+                  </heading_logging>
+						<logging translate="label">
+							<label>Status</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_logging</frontend_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment></comment>
+						</logging>
+						<heading_diagnostics translate="label">
+                      <label>Diagnostics</label>
+                      <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                      <sort_order>200</sort_order>
+                      <show_in_default>1</show_in_default>
+                      <show_in_website>0</show_in_website>
+                      <show_in_store>1</show_in_store>
+                  </heading_diagnostics>
+                  <diagnostics translate="label">
+							<label>Status</label>
+							<frontend_model>emaildirect/adminhtml_system_config_form_field_diagnostics</frontend_model>
+							<sort_order>210</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>0</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment></comment>
+						</diagnostics>
+					</fields>
+				</troubleshooting>
+			</groups>
+		</emaildirect>
+	</sections>
+</config>

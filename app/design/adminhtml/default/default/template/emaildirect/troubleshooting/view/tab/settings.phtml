@@ -1,0 +1,218 @@
+<?php 
+$status = $this->getLoggingStatus();
+$areas = Mage::helper('emaildirect/troubleshooting')->getAreas(); 
+
+$logging_enabled = $this->getSetting('logging_enabled') == 1;
+$advanced_enabled = $this->getSetting('logging_advanced_enabled') == 1;
+
+$diagnostic_enabled = Mage::helper('emaildirect/troubleshooting')->isDiagnosticEnabled();
+
+?>
+
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4>Troubleshooting Settings</h4>
+	</div>
+<div id="_accountbase_fieldset" class="fieldset ">
+	
+	
+<div class="hor-scroll">
+	<form id='emaildirect_settings_form' action='<?php echo Mage::helper('emaildirect')->getAdminUrl("ed_integration/admin_troubleshooting/save"); ?>' method='post'>
+		<input type="hidden" name="form_key" value="<? echo $this->getFormKey(); ?>" />
+		
+<table cellspacing="0" class="form-list">
+<tbody>
+<tr class="system-fieldset-sub-head"><td colspan="2"><h4>Logging</h4></td></tr>
+<tr>
+	<td class="label"><label for="logging_enabled">Enabled</label></td>
+	<td class="value">
+		<select id='logging_enabled' name='logging_enabled'>
+			<option value='yes'>Yes</option>
+			<option value='no' <?php if (!$logging_enabled) echo "selected='selected'" ?>>No</option>
+		</select>
+	</td>
+</tr>
+<tr id='logging_advanced_row' <?php if (!$logging_enabled) echo "style='display:none'" ?>>
+	<td class="label"><label for="logging_advanced_enabled">Advanced Settings</label></td>
+	<td class="value">
+		<select id='logging_advanced_enabled' name='logging_advanced_enabled'>
+			<option value='enabled'>Enabled</option>
+			<option value='disabled' <?php if (!$advanced_enabled) echo "selected='selected'" ?>>Disabled</option>
+		</select>
+	</td>
+</tr>
+</tbody>
+</table>
+
+<div id='advanced_settings' <?php if (!$logging_enabled || !$advanced_enabled) echo "style='display:none'" ?>>
+<table cellspacing="0" class="form-list">
+<tbody>
+<tr>
+	<td class="label"><label for="logging_stores">Stores</label></td>
+	<td class="value">
+		<select id='logging_stores' name='logging_stores'>
+			<option value='all'>All</option>
+			<option value='selected' <?php if ($this->getSetting('logging_stores') == "selected") echo "selected='selected'" ?>>Selected</option>
+		</select>
+	</td>
+</tr>
+</table>
+<table cellspacing="0" class='troubleshooting_details' id='troubleshooting_stores' <?php if ($this->getSetting('logging_stores') == "all") echo "style='display:none'" ?>>
+<tbody>
+<tr>
+	<th>Store Name</th>
+	<th>Logging</th>
+</tr>
+<?php $stores = $this->getArraySetting("logging_stores_selected"); ?>
+<?php foreach ($status['stores'] as $store): ?>
+<tr>
+<td><?php echo $store['name'] ?> <?php if (!$store['emaildirect_enabled']) echo "(disabled)"; ?></td>
+<td align='center'>
+	<input type='checkbox' value='<?php echo $store['id'] ?>' name='logging_stores_selected[]' id='logging_stores_selected_<?php echo $store['id'] ?>' <?php if ($store['selected']) echo "checked='checked'"; ?> /></td>
+</tr>
+<?php endforeach; ?>
+
+</tbody>
+</table>
+
+<table cellspacing="0" class="form-list">
+<tbody>
+<tr>
+	<td class="label"><label for="logging_areas">Areas</label></td>
+	<td class="value">
+		<select id='logging_areas' name='logging_areas'>
+			<option value='all'>All</option>
+			<option value='selected' <?php if ($this->getSetting('logging_areas') == "selected") echo "selected='selected'" ?>>Selected</option>
+		</select>
+		
+		<table cellspacing="0" class='troubleshooting_details' id='troubleshooting_areas' <?php if ($this->getSetting('logging_areas') == "all") echo "style='display:none'" ?>>
+<tbody>
+<?php foreach ($status['areas'] as $key => $area): ?>
+<tr>
+<td><?php echo $area['label'] ?></td>
+<td align='center'><input type='checkbox' value='<?php echo $key ?>' name='logging_areas_selected[]' id='logging_areas_selected_<?php echo $key ?>' <?php if ($area['selected']) echo "checked='checked'"; ?> /></td>
+</tr>
+<?php endforeach; ?>
+
+</tbody>
+</table>
+</td>
+</tr>
+</table>
+
+
+<table cellspacing="0" class="form-list">
+<tbody>
+<tr>
+	<td class="label"><label for="ip_address">IP Address</label></td>
+	<td class="value">
+		<textarea id='ip_address' name='ip_address'><?php echo $this->getSetting('logging_ip') ?></textarea>
+		<p id="note_ip_address" class="note"><span>Limit logging to specific IP addresses. For multiple addresses use a comma separated list.</span></p>
+		<p class='current_ip'><span class='your_ip'>Your IP:</span><span class='current_ip_address'><?php echo $this->getCurrentIP(); ?></span> <button onclick="return addIP();" class='scalable add'><span>Add</span></button></p>
+	</td>
+</tr>
+<tr>
+	<td class="label"><label for="duration">Duration</label></td>
+	<td class="value">
+		<?php $duration_options = $this->getDurationOptions();
+		$duration = $this->getSetting('logging_duration'); 
+		?>
+		<select name='logging_duration' id='logging_duration'>
+			<?php foreach ($duration_options as $value => $label): ?>
+			<option value='<?php echo $value ?>' <?php if ($value == $duration) echo "selected='selected'" ?>><?php echo $label ?></option>
+			<?php endforeach; ?>
+		</select>
+	</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<table cellspacing="0" class="form-list">
+<tbody>
+<tr class="system-fieldset-sub-head"><td colspan="2"><h4>Diagnostics</h4></td></tr>
+<tr>
+	<td class="label"><label for="diagnostic_enabled">Enabled</label></td>
+	<td class="value">
+		<select id='diagnostic_enabled' name='diagnostic_enabled'>
+			<option value='1'>Yes</option>
+			<option value='0' <?php if (!$diagnostic_enabled) echo "selected='selected'" ?>>No</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="label"></td>
+	<td class="value">
+		<button>Save Settings</button>
+	</td>
+</tr>
+</tbody>
+</table>
+</form>
+<script type="text/javascript">
+
+function addIP()
+{
+	var current = $('ip_address').value;
+	if (current != "")
+		current += ",";
+	
+	current += '<?php echo $this->getCurrentIP(); ?>';
+	
+	
+	
+	console.log(current);
+	
+	$('ip_address').value = current;
+	
+	return false;
+}
+
+function toggle(evt, target, value)
+{
+	var elem = Event.element(evt);
+	
+	if (elem)
+	{
+		if (elem.value == value)
+			$(target).hide();
+		else
+			$(target).show();
+  }
+}
+
+function toggleStores(evt)
+{
+	toggle(evt,'troubleshooting_stores','all');
+}
+
+function toggleAreas(evt)
+{
+	toggle(evt,'troubleshooting_areas','all');
+}
+
+function toggleAdvanced(evt)
+{
+	toggle(evt,'advanced_settings','disabled');
+}
+
+function toggleAdvancedRow(evt)
+{
+	toggle(evt,'logging_advanced_row','no');
+	
+	//console.log($('logging_advanced_enabled').value);
+	if ($('logging_advanced_enabled').value == 'enabled')
+		$('advanced_settings').show();
+}
+
+Event.observe('logging_stores', 'change', toggleStores);
+Event.observe('logging_areas', 'change', toggleAreas);
+Event.observe('logging_advanced_enabled', 'change', toggleAdvanced);
+Event.observe('logging_enabled', 'change', toggleAdvancedRow);
+
+//	var ed_form = new varienForm('emaildirect_settings_form' );
+</script>
+</div>
+</div>
+</div>
+

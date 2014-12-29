@@ -1,0 +1,21 @@
+<div id="<?php echo $this->getElement()->getHtmlId(); ?>" style='display:none'></div>
+<button id='emaildirect_export_products' onClick="perform_product_export(); return false;">Export Products</button>
+<script type='text/javascript'>
+function perform_product_export()
+{
+	var form = $('config_edit_form');
+	var include_disabled = form['groups[export][fields][include_disabled][value]'];
+	var url = '<?php echo $this->getUrl("ed_integration/admin_export/products/"); ?>';
+	var store = <?php echo Mage::helper('emaildirect')->getAdminStore() ?>;
+
+	url += 'include_disabled/' + $(include_disabled).getValue() + '/';
+	if (store != 0)
+		url += 'store/' + store;
+	
+	window.open(url);
+}
+
+<?php if ($this->getElement()->getDisabled()):?>
+toggleValueElements({checked:true}, $('emaildirect_export_products').parentNode);
+<?php endif;?>
+</script>

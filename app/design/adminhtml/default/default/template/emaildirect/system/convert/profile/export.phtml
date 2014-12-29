@@ -1,0 +1,221 @@
+<?php $this->getBatchModel() ?>
+<?php $importData = $this->getImportData();?>
+<style type="text/css" >
+    ul { list-style-type:none; padding:0; margin:0; }
+    li { margin-left:0; border:1px solid #ccc; margin:2px; padding:2px 2px 2px 2px; font:normal 13px sans-serif; }
+    img { margin-right:5px; }
+</style>
+<script type="text/javascript">
+    var FORM_KEY = "<?php echo $this->getFormKey();?>";
+    var export_type = "<?php echo $this->getExportType(); ?>";
+</script>
+<ul>
+	<li>
+		<img src="<?php echo $this->getSkinUrl('images/note_msg_icon.gif')?>" class="v-middle" style="margin-right:5px"/>
+		<?php echo $this->__("Starting EmailDirect Export...");?>
+	</li>
+	<li style="background-color:#FFD;">
+		<img src="<?php echo $this->getSkinUrl('images/fam_bullet_error.gif');?>" class="v-middle" style="margin-right:5px"/>
+		<?php
+			if (count($importData) == 0)
+				echo $this->__("No items found to export!");
+			else
+				echo $this->__("Warning: Please do not close the window during export process!");
+		?>
+	</li>
+</ul>
+<ul id="profileRows">
+	<li id="liFinished" style="display: <?php if (count($importData) == 0) echo 'block'; else echo 'none' ?>;">
+		<img src="<?php echo $this->getSkinUrl('images/note_msg_icon.gif');?>" class="v-middle" style="margin-right:5px"/>
+		<?php echo $this->__("Finished Export!.");?>
+		<span id='download_link'>
+		
+		</span>
+	</li>
+</ul>
+<script type="text/javascript">
+	var d = new Date();
+	var countOfStartedProfiles = 0;
+	var filename = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + "T" + d.getHours() + "_" + d.getMinutes();
+	var countOfUpdated = 0;
+	var countOfError = 0;
+	var importData = <?php echo $this->jsonEncode($importData);?>;
+	var totalRecords = <?php echo $this->getBatchItemsCount();?>;
+	var config = <?php echo $this->getBatchConfigJson();?>;
+	var group = <?php echo $this->getBatchSize() ?>;
+	var upload_ed = <?php echo $this->getUploadStatus() ?>;
+	var store = <?php echo $this->getStore() ?>;
+</script>
+<script type="text/javascript">
+
+function execImportData()
+{
+	if (importData.length == 0)
+	{
+		// Finished
+		$("updatedRows_img").src = config.styles.message.icon;
+		$("updatedRows").style.backgroundColor = config.styles.message.bg;
+		Element.insert($("liFinished"), {before: config.tpl.evaluate({
+			style: "background-color:"+config.styles.message.bg,
+			image: config.styles.message.icon,
+			text: config.tplSccTxt.evaluate({updated:(countOfUpdated-countOfError)}),
+			id: "updatedFinish"
+		})});
+		
+		if (upload_ed)
+		{
+			Element.insert($("liFinished"), {before: config.tpl.evaluate({
+				style: "background-color:"+config.styles.message.bg,
+				image: config.styles.message.icon,
+				text: config.tplUploading.evaluate({updated:countOfUpdated}),
+				id: "uploadingFinish"
+			})});
+		}
+
+		if ($("liBeforeFinish"))
+		{
+			Element.insert($("liFinished"), {before: $("liBeforeFinish")});
+			$("liBeforeFinish").show();
+		}
+
+		new Ajax.Request("<?php echo $this->getUrl('*/*/batchFinish');?>", 
+		{
+			method: "post",
+			parameters: {filename: filename, form_key: FORM_KEY, export_type: export_type, store: store},
+			onComplete: function(transport) 
+			{
+				if (transport.responseText.isJSON())
+				{
+					var response = transport.responseText.evalJSON();
+					
+					Element.insert($("download_link"), {bottom: "<a href='" + response.download_link + "'>Download File</a>"});
+					if (response.error)
+					{
+     					Element.insert($("liFinished"), {before: config.tpl.evaluate({
+							style: "background-color:"+config.styles.error.bg,
+							image: config.styles.error.icon,
+							text: response.error.escapeHTML(),
+							id: "error-finish"
+     					})});
+ 					}
+				}
+
+				if ($("before-finish-wait-img")) 
+					$("before-finish-wait-img").hide();
+               
+				$('liFinished').show();
+			}
+		});
+	}
+	else
+	{
+		if (group > 1)
+		{
+			var ids = [];
+			for (var i = 0; i < group; i++)
+			{
+				ids.push(importData.shift());
+				
+				if (importData.length == 0)
+					break;
+			}
+			
+			sendImportData(ids,"id[]");
+		
+		}
+		else
+		{
+			sendImportData(importData.shift(),"id");
+		}
+	}
+}
+
+function sendImportData(id,id_name)
+{
+	var data = {}
+	var updated = 1;
+	
+	data[id_name] = id;
+	
+	if (typeof(id) != 'number')
+		updated = id.length;
+	
+	if (!config.tpl)
+	{
+		config.tpl = new Template(config.template);
+		config.tplTxt = new Template(config.text);
+		config.tplSccTxt = new Template(config.successText);
+		config.tplUploading = new Template(config.uploadText);
+	}
+	if (!$("updatedRows"))
+	{
+		Element.insert($("liFinished"), {before: config.tpl.evaluate({
+			style: "background-color: #FFD;",
+			image: config.styles.loader,
+			text: config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent()}),
+			id: "updatedRows"
+		})});
+	}
+	countOfStartedProfiles++;
+	
+	if (!data.form_key)
+		data.form_key = FORM_KEY;
+	
+	data.export_type = export_type;
+	
+	data.filename = filename;
+   
+	new Ajax.Request("<?php echo $this->getUrl("*/*/batchRun/");?>", 
+	{
+     	method: "post",
+     	parameters: data,
+     	onSuccess: function(transport)
+		{
+			countOfStartedProfiles --;
+			countOfUpdated += updated;
+			if (transport.responseText.isJSON())
+  				addProfileRow(transport.responseText.evalJSON());
+			else
+			{
+  				Element.insert($("updatedRows"), {before: config.tpl.evaluate({
+					style: "background-color: "+config.styles.error.bg,
+					image: config.styles.error.icon,
+					text: transport.responseText.escapeHTML(),
+					id: "error-" + countOfStartedProfiles
+  					})
+  				});
+  				countOfError ++;
+			}
+			execImportData();
+		}
+	});
+}
+
+function getPercent()
+{
+	return Math.ceil((countOfUpdated/totalRecords)*1000)/10;
+}
+
+function addProfileRow(data)
+{
+	if (data.errors.length > 0)
+	{
+		for (var i=0, length=data.errors.length; i<length; i++)
+		{
+			Element.insert($("updatedRows"), {before: config.tpl.evaluate({
+				style: "background-color:"+config.styles.error.bg,
+				image: config.styles.error.icon,
+				text: data.errors[i],
+				id: "id-" + (countOfUpdated + i + 1)
+			})});
+  			countOfError ++;
+		}
+	}
+	$("updatedRows_status").update(config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent()}));
+}
+</script>
+ 
+<script type="text/javascript">
+if (totalRecords > 0)
+	execImportData();
+</script>

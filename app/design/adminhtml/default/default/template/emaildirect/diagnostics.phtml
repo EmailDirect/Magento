@@ -1,0 +1,242 @@
+<?php $options = $this->getDiagnosticOptions(); ?>
+<style>
+
+.diagnostic_table { border-collapse: collapse; }
+.diagnostic_table tr td { border: solid 1px; padding: 4px; }
+.diagnostic_table tr td:first-child { font-weight: bold; }
+
+a.ed_ec {
+  color: #fff;
+  padding-right: 30px;
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#spacer_output { height: 20px; }
+
+a.ed_contract {
+	background: url(<?php echo $this->getSkinUrl("images/entry_edit_head_arrow_up.gif"); ?>) no-repeat scroll 100% 50% rgba(0, 0, 0, 0);
+}
+a.ed_expand {
+	background: url(<?php echo $this->getSkinUrl("images/entry_edit_head_arrow_down.gif"); ?>) no-repeat scroll 100% 50% rgba(0, 0, 0, 0);
+}
+
+table.diagnostic-options { width: 100%; }
+
+.diagnostic-options td {
+  background: none repeat scroll 0 center rgba(0, 0, 0, 0) !important;
+  border: 0 none !important;
+  padding-bottom: 5px !important;
+  padding-left: 5px !important;
+  padding-top: 5px !important;
+}
+
+.diagnostic-note div { font-weight: bold; color: red; margin-left: 15px; }
+
+</style>
+<div>
+<?php echo $this->getChildHtml('diagnostic_status') ?>
+
+<div class="box-right">
+	<!--Account Information-->
+	<div class="entry-edit">
+		<div class="entry-edit-head">
+			<h4 class="icon-head head-account">Run Diagnostics</h4>
+			<div class="tools"></div>
+		</div>
+		<div class="fieldset">
+			<div class="hor-scroll">
+				<table cellspacing="0" class="diagnostic-options">
+				<tbody>
+					<!--<tr>
+						<td class="label"><label for="clear_after">Clear output before each diagnostic?</label></td>
+						<td class="value">
+							<input type='checkbox' id='clear_after' checked='checked' />
+						</td>
+						<td>&nbsp;</td>
+					</tr>-->
+					<?php foreach ($options as $option): ?>
+					<tr>
+						<td class='label'><?php echo $option['label'] ?></td>
+						<td class='diagnostic-button'>
+							<button id='<?php echo $option['code'] ?>_button' <?php if (isset($option['disabled'])) echo "disabled='disabled' class='disabled'"?>onclick="performRequest('<?php echo $option['code'] ?>')">Run Diagnostic</button>
+						</td>
+						<td class='diagnostic-note'>
+							<div>
+								<?php
+									if (isset($option['disabled_reason']))
+										echo "Note: " . $option['disabled_reason'];
+									else if (isset($option['note']))
+								 		echo "Note: " . $option['note'];
+								?> 
+							</div>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+					
+					<tr>
+						<td>
+							<form id='download_form' method='post' action='<?php echo $this->getUrl("ed_integration/admin_diagnostic/download") ?>'>
+								<input type='hidden' name='form_key' value='<?php echo $this->getFormKey(); ?>'></input>
+								<input type='hidden' name='output' id='hidden_output' value='' ></input>
+								<input type='hidden' name='filename' value='diagnostic_output.html' ></input>
+							</form>
+							<button id='download' disabled='disabled' class='disabled' onclick='return performDownload()'>Download</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class='clear'> </div>
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-products"><a class='ed_ec ed_contract' id='diagnostic_output_toggle' href="#" onclick="return toggleSection('diagnostic_output');">Diagnostic Output</a></h4>
+		<div class="tools">
+			<a href='#' onclick="return selectText('diagnostic_output');">Select</a>
+			<!--<span> | </span>
+			<a href='#' onclick="return clear('output');">Clear</a>-->
+			
+			</div>
+	</div>
+	<div id="emaildirect_diagnostic_output_fieldset" class="fieldset">
+		<div class="hor-scroll">
+			<div id='diagnostic_output' style="height: 500px; overflow: scroll;">
+			</div>
+		</div>
+	</div>
+</div>
+<div id='spacer_output' style='display:none'> </div>
+
+<div class='clear'> </div>
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-products"><a class='ed_ec ed_expand' id='diagnostic_details_toggle' href="#" onclick="return toggleSection('diagnostic_details');">Diagnostic Details</a></h4>
+		<div class="tools">
+			<a href='#' onclick="return selectText('diagnostic_details');">Select</a>
+			<!--<span> | </span>
+			<a href='#' onclick="return clear('details');">Clear</a>-->
+			
+			</div>
+	</div>
+	<div id="emaildirect_diagnostic_details_fieldset" class="fieldset" style='display:none'>
+		<div class="hor-scroll">
+			<div id='diagnostic_details' style="height: 500px; overflow: scroll;">
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+
+<script type='text/javascript'>
+	var FORM_KEY = "<?php echo $this->getFormKey();?>";
+	var item_id = <?php echo $this->getItemId(); ?>;
+	var store_id = <?php echo $this->getStoreId(); ?>;
+
+function clear(section)
+{
+	$("diagnostic_" + section).update("");
+	return false;
+}
+
+function toggleSection(section)
+{
+	console.log(section);
+	$("emaildirect_" + section + "_fieldset").toggle();
+	
+	$(section + "_toggle").toggleClassName("ed_expand");
+	$(section + "_toggle").toggleClassName("ed_contract");
+	
+	if (section == 'diagnostic_output')
+		$('spacer_output').toggle();
+		
+	return false;
+}
+
+function selectText(containerid)
+{
+	if (document.selection)
+	{
+		var range = document.body.createTextRange();
+		range.moveToElementText(document.getElementById(containerid));
+		range.select();
+	}
+	else if (window.getSelection)
+	{
+		var range = document.createRange();
+		range.selectNode(document.getElementById(containerid));
+		window.getSelection().addRange(range);
+	}
+	
+	return false;
+}
+
+function showOutput(output)
+{
+	$("diagnostic_output").insert(output);
+}
+
+function showDetails(details)
+{
+	$("diagnostic_details").insert(details);
+}
+
+function showData(output, details)
+{
+	$("hidden_output").value = "<div>" + output + "</div><hr /><h1>Report Details</h1><div>" + details + "</div>";
+	$("download").removeClassName('disabled');
+	$("download").removeAttribute('disabled');
+	
+	showOutput(output);
+	showDetails(details);
+}
+
+function performRequest(method)
+{
+	//if ($("clear_after").checked)
+	{
+		clear('output');
+		clear('details');
+	}
+	
+	new Ajax.Request('<?php echo $this->getUrl('ed_integration/admin_diagnostic/ajax') ?>', 
+	{
+		parameters: {isAjax: 'true', form_key: FORM_KEY, method: method, item_id: item_id, store_id: store_id},
+		onSuccess: function(transport) 
+		{
+			try 
+			{
+				if (transport.responseText.isJSON())
+				{
+					var response = transport.responseText.evalJSON()
+					if (response.error) 
+					{
+						alert(response.message);
+					}
+					if(response.ajaxExpired && response.ajaxRedirect)
+					{
+						setLocation(response.ajaxRedirect);
+					}
+					
+					showData(response.output,response.details);
+				}
+			}
+			catch (e)
+			{
+				showOutput(transport.responseText);
+			}
+		}
+	});
+}
+
+function performDownload()
+{
+	$("download_form").submit();
+	return false;
+}
+</script>

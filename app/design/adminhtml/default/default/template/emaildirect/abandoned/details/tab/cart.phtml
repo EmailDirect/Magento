@@ -1,0 +1,62 @@
+<?php $cart_items = $this->getCartItems(); ?>
+<?php
+$_sub_total = 0;
+$_total = 0;
+$_qty = 0;
+?>
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-products">Cart Items</h4>
+	</div>
+</div>
+
+<div class="grid np">
+  <div class="hor-scroll">
+    <table cellspacing="0" class="data order-tables">
+        <colgroup>
+        <col width="1">
+        <col>
+        <col width="1">
+        <col width="1">
+        <col width="1">
+        <col width="1">
+        </colgroup><thead>
+            <tr class="headings">
+                <th>Product ID</th>
+                <th>Product Name</span></th>
+                <th>SKU</th>
+                <th class="a-center">Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+		<tbody class="even">
+                
+<?php
+	foreach ($cart_items as $item): ?>
+	<?php 
+		$_qty += $item->getQty();
+		$_sub_total += $item->getPrice();
+		$_total += $item->getRowTotal();
+	?>
+	<tr class="border">
+		<td><?php echo $item->getId(); ?></td>
+		<td><?php echo $item->getName(); ?></td>
+		<td><?php echo $item->getSku(); ?></td>
+		<td><?php echo $item->getQty(); ?></td>
+		<td><?php echo Mage::helper('core')->currency($item->getPrice(), true, false); ?></td>
+		<td><?php echo Mage::helper('core')->currency($item->getRowTotal(), true, false); ?></td>
+	</tr>
+<?php endforeach; ?>
+<tfoot>
+	<tr>
+		<td colspan="3"></td>
+		<td><?php echo $_qty; ?></td>
+		<td><?php echo Mage::helper('core')->currency($_sub_total, true, false); ?></td>
+		<td><?php echo Mage::helper('core')->currency($_total, true, false); ?></td>
+	</tr>
+</tfoot>
+            </tbody>
+            </table>
+  </div>
+</div>

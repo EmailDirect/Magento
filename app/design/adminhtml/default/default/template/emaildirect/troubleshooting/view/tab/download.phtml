@@ -1,0 +1,12 @@
+<div class="entry-edit">
+   <div class="entry-edit-head">
+       <h4>Download Report to send to EmailDirect</h4>
+   </div>
+<div id="_accountbase_fieldset" class="fieldset ">
+<div class="hor-scroll">
+	<p>Click the button below to download the troubleshooting report.</p>
+	<p>You can then send this report along with your contact information and description of the problem you are having to <a href="mailto:<?php echo $this->getTroubleEmail() ?>?subject=<?php echo $this->getTroubleSubject() ?>"><?php echo $this->getTroubleEmail() ?></a>.</p>
+	<button onclick="setLocation('<?php echo $this->getUrl('ed_integration/admin_troubleshooting/download/') ?>'); return false;">Download Report</button>
+</div>
+</div>
+</div>

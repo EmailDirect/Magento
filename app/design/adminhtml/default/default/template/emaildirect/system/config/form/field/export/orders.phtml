@@ -1,0 +1,20 @@
+<div id="<?php echo $this->getElement()->getHtmlId(); ?>" style='display:none'></div>
+<button id='emaildirect_export_orders' onClick="perform_order_export(); return false;">Export Orders</button>
+<script type='text/javascript'>
+function perform_order_export()
+{
+	var form = $('config_edit_form');
+	var from = form['order_export_from'];
+	var to = form['order_export_to'];
+	var store = <?php echo Mage::helper('emaildirect')->getAdminStore(); ?>;
+	var include = form['groups[export][fields][include_already_sent][value]'];
+	var url = '<?php echo $this->getUrl("ed_integration/admin_export/orders/"); ?>';
+
+	url += 'export_from/' + $(from).getValue()  + '/export_to/' + $(to).getValue() + '/include_already_sent/' + $(include).getValue() + '/store/' + store + '/';
+	
+	window.open(url);
+}
+<?php if ($this->getElement()->getDisabled()):?>
+toggleValueElements({checked:true}, $('emaildirect_export_orders').parentNode);
+<?php endif;?>
+</script>

@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<layout>
+	<adminhtml_system_config_edit>
+		<reference name="head">
+			<action method="addCss"><stylesheet>emaildirect/emaildirect.css</stylesheet></action>
+		</reference>
+		<reference name="content">
+			<block type="core/template" name="emaildirect_setup_check"  before="-" template="emaildirect/system/config/setup_check.phtml" />
+		</reference>
+	</adminhtml_system_config_edit>
+	
+	<adminhtml_sales_order_view>
+		<reference name="sales_order_tabs">
+			<block type="emaildirect/adminhtml_order_view_tab_diagnostics" name="order_view_tab_emaildirect" template="emaildirect/diagnostics.phtml">
+				<block type="emaildirect/adminhtml_order_view_tab_diagnostics_status" name="diagnostic_status" template="emaildirect/order/view/tab/diagnostics/status.phtml"></block>
+			</block>
+			<action method="addTab">
+				<name>order_view_tab_emaildirect</name>
+				<block>order_view_tab_emaildirect</block>
+			</action>
+		</reference>
+	</adminhtml_sales_order_view>
+	 
+	<ed_integration_admin_export_products>
+		<remove name="root"/>
+		<block type="adminhtml/page" name="convert_root" output="toHtml" template="page.phtml">
+			<block type="adminhtml/page_head" name="convert_root_head" as="head" template="page/head.phtml">
+				<action method="addJs"><script>prototype/prototype.js</script></action>
+				<action method="addJs"><script>prototype/validation.js</script></action>
+				<action method="addJs"><script>varien/js.js</script></action>
+				<action method="addJs"><script>mage/translate.js</script></action>
+				<action method="addJs"><script>mage/adminhtml/tools.js</script></action>
+				<action method="setTitle" translate="title"><title>EmailDirect - Export Products</title></action>
+			</block>
+			<block type="emaildirect/adminhtml_system_convert_profile_export_products" name="system_convert_profile_run" template="emaildirect/system/convert/profile/export.phtml" output="toHtml"/>
+  		</block>
+	</ed_integration_admin_export_products>
+    
+	<ed_integration_admin_export_orders>
+		<remove name="root"/>
+		<block type="adminhtml/page" name="convert_root" output="toHtml" template="page.phtml">
+			<block type="adminhtml/page_head" name="convert_root_head" as="head" template="page/head.phtml">
+				<action method="addJs"><script>prototype/prototype.js</script></action>
+				<action method="addJs"><script>prototype/validation.js</script></action>
+				<action method="addJs"><script>varien/js.js</script></action>
+				<action method="addJs"><script>mage/translate.js</script></action>
+				<action method="addJs"><script>mage/adminhtml/tools.js</script></action>
+				<action method="setTitle" translate="title"><title>EmailDirect - Export Orders</title></action>
+			</block>
+			<block type="emaildirect/adminhtml_system_convert_profile_export_orders" name="system_convert_profile_run" template="emaildirect/system/convert/profile/export.phtml" output="toHtml"/>
+		</block>
+	</ed_integration_admin_export_orders>
+    
+	<ed_integration_admin_troubleshooting_index>
+		<reference name="head">
+			<action method="addCss"><stylesheet>emaildirect/emaildirect.css</stylesheet></action>
+		</reference>
+		<reference name="content">
+         <block type="emaildirect/adminhtml_troubleshooting_view" name="troubleshooting_view">
+         	<block type="emaildirect/adminhtml_troubleshooting_status" name="troubleshooting_status" template='emaildirect/troubleshooting/status.phtml'>
+         	</block>
+         </block>
+		</reference>
+		<reference name="left">
+			<block type="emaildirect/adminhtml_troubleshooting_tabs" name="trouble.tabs" as="trouble.tabs" template="widget/tabs.phtml" >				
+				<action method="addTab"><name>trouble_help</name><block>emaildirect/adminhtml_troubleshooting_view_tab_help</block></action>
+				<action method="addTab"><name>trouble_settings</name><block>emaildirect/adminhtml_troubleshooting_view_tab_settings</block></action>
+				<action method="addTab"><name>trouble_info</name><block>emaildirect/adminhtml_troubleshooting_view_tab_info</block></action>
+				<action method="addTab"><name>trouble_log</name><block>emaildirect/adminhtml_troubleshooting_view_tab_log</block></action>
+				<action method="addTab"><name>trouble_submit</name><block>emaildirect/adminhtml_troubleshooting_view_tab_submit</block></action>
+				<action method="addTab"><name>trouble_download</name><block>emaildirect/adminhtml_troubleshooting_view_tab_download</block></action>
+    		</block>
+		</reference>
+	</ed_integration_admin_troubleshooting_index>
+    
+	<ed_integration_admin_abandoned_index>
+		<reference name="head">
+			<action method="addCss"><stylesheet>emaildirect/emaildirect.css</stylesheet></action>
+		</reference>
+		<reference name="content">
+			<block type="emaildirect/adminhtml_abandoned" name="abandoned_cart">
+			</block>
+		</reference>
+	</ed_integration_admin_abandoned_index>
+	
+	<ed_integration_admin_abandoned_details>
+		<reference name="head">
+			<action method="addCss"><stylesheet>emaildirect/emaildirect.css</stylesheet></action>
+		</reference>
+		<reference name="content">
+			<block type="emaildirect/adminhtml_abandoned_details" name="abandoned_details" template="emaildirect/abandoned/details.phtml">
+			</block>
+		</reference>
+		<reference name="left">
+			<block type="emaildirect/adminhtml_abandoned_tabs" name="abandoned.tabs" as="abandoned.tabs" template="widget/tabs.phtml" >
+				<block type="emaildirect/adminhtml_abandoned_details_tab_diagnostics" name="abandoned_tab_details_emaildirect" template="emaildirect/diagnostics.phtml">
+				<block type="emaildirect/adminhtml_abandoned_details_tab_diagnostics_status" name="diagnostic_status" template="emaildirect/abandoned/details/tab/diagnostics/status.phtml"></block>
+			</block>
+			
+				<action method="addTab"><name>abandoned_cart</name><block>emaildirect/adminhtml_abandoned_details_tab_cart</block></action>
+				<action method="addTab"><name>abandoned_details</name><block>abandoned_tab_details_emaildirect</block></action>
+				
+    		</block>
+		</reference>
+	</ed_integration_admin_abandoned_details>
+</layout>

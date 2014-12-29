@@ -1,0 +1,29 @@
+<?php /* Check if the user has logged out before trying EmailDirect for the first time */ ?>
+
+<?php if ($this->getRequest()->getParam('section') == 'emaildirect'):
+	$session = Mage::getSingleton('admin/session');
+	try
+	{
+		$acl_valid = $session->isAllowed(
+				$session->getData('acl')->get("admin/system/config/emaildirect")->getResourceId()
+			);
+	}
+	catch (Exception $e)
+	{
+		$acl_valid = false;
+	}
+
+	if (!$acl_valid): ?>
+		<div id="messages">
+			<ul class="messages">
+				<li class="warning-msg">
+					<ul>
+						<li>
+							<span><?php echo $this->__("To finish installing EmailDirect, log out of Magento and log back in.") ?></span>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	<?php endif;
+endif; ?>

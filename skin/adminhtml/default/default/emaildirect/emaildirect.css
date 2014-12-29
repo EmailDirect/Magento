@@ -1,0 +1,135 @@
+ul.tabs a.emaildirect-section,
+ul.tabs a.emaildirect-section:hover {background: url("../images/tabs_span_bg.gif") repeat-x scroll 0 100% transparent; border-bottom:none; padding:0.5em 0.5em 0.5em 1.5em; text-indent:-9999px;}
+
+ul.tabs a.emaildirect-section:hover { background-color: #D8E6E6; border-right: solid 1px #8BA5A5;}
+
+ul.tabs a.emaildirect-section span,
+ul.tabs a.emaildirect-section:hover span { background:url(emaildirect-tab.png) no-repeat 0 0; overflow:hidden; padding:0; width:120px; height:24px; }
+ul.tabs a.emaildirect-section.active, ul.tabs a.emaildirect-section.active:hover { border-bottom: 1px solid #BEBEBE; background: none repeat scroll 0 0 white;}
+
+h3.emaildirect-header { background:url(emaildirect-tab.png) no-repeat 0 0; height: 24px; overflow:hidden; padding:0; width:120px; text-indent:-9999px; }
+
+div.emaildirect-notice, div.emaildirect-status{
+background:#EAF0EE;
+border:1px solid #CCCCCC;
+margin-bottom:10px;
+padding:11px 10px 5px;
+}
+
+div.emaildirect-status
+{
+padding:10px;
+font-weight: bold;
+}
+
+div.emaildirect-status table
+{
+width: 100%;
+}
+
+div.emaildirect-status table td
+{
+width: 25%;
+}
+
+.warning
+{
+color: #ea7601;
+font-weight: bold;
+}
+
+#ed_status_row span
+{
+   color: green;
+}
+
+#ed_status_row.disabled span
+{
+   color: red;
+}
+
+div.emaildirect-notice h4
+{
+   color: #EA7601;
+}
+
+div.emaildirect-notice h4 div.abandoned
+{
+	float: right;
+}
+
+.ab_ok { color: green; }
+.ab_ng { color: red; }
+
+#emaildirect_trouble { float: right; }
+#emaildirect_trouble_details { margin-top: 10px; }
+#emaildirect_trouble_details table { margin-bottom: 10px; width: 100%; border-collapse: collapse;}
+#emaildirect_trouble_details table tr td { border: solid 1px; padding: 2px; }
+#emaildirect_trouble_details table tr td:first-child{ width: 80px; }
+#emaildirect_trouble_details ul { list-style: disc outside none; margin-left: 14px;}
+
+#log_file_contents { width: 796px; height: 396px; overflow:scroll; border:solid 1px; padding: 2px;}
+#config_details table { width: 100%; border-collapse: collapse;}
+.ed-config-table tr td:first-child { width: 180px; }
+
+.entry-logfile { overflow: scroll; height: 600px;}
+
+.grid .ed-config-subtable tr.headings {
+  background: url("../images/sort_row_bg.gif") repeat-x scroll 0 50% transparent !important; 
+}
+
+.log_note { color: red; padding: 5px 0;}
+.log_size_warning { color: red;}
+
+.ed_orders_found { margin-top: 10px; }
+
+.head-adminhtml-troubleshooting {
+  background-image: url("../images/fam_package_go.gif");
+}
+
+table.missing_columns { background-color: white; color: black; margin: 10px; border: solid 1px black; border-collapse: collapse;}
+
+table.missing_columns tr td, table.missing_columns tr th { border: solid 1px black; border-collapse: collapse; padding: 4px 10px;}
+table.missing_columns tr th { font-weight: bold; color: red; }
+
+#emaildirect_column_fix { margin-left: 15px; }
+
+.abandoned_status tr td { padding-right: 10px; }
+
+.head-adminhtml-abandoned { background-image: url("../images/fam_cart.gif"); }
+
+.cron_warning { margin: 0 10px; cursor: pointer;}
+
+table.troubleshooting_details tr td, table.troubleshooting_details tr th { padding: 4px; }
+table.troubleshooting_details { margin-top: 15px; margin-bottom: 10px; }
+
+#troubleshooting_stores { margin-left: 20px; }
+
+#ip_address { height: 3em; }
+
+#apikey_validator { float: right; }
+
+#emaildirect_status_indicator { font-weight: bold; }
+.apikey_valid { color: green; }
+.apikey_invalid { color: red; }
+.apikey_validating { color: black; }
+
+.emaildirect_api_status { width: 280px; }
+
+.emaildirect_help { max-width: 700px; font-size: 1.2em;}
+
+table.map_field_list, table.map_field_custom { margin-left: 20px; margin-bottom: 10px; width: 90%; }
+table.map_field_list tr td, table.map_field_custom tr td {width: 33%; padding: 5px;} 
+
+table.map_field_custom tr td:first-child { width: 20%; }
+table.map_field_custom tr td:last-child { width: 80%; } 
+
+.current_ip { margin-top: 10px; }
+.current_ip button { float: left; }
+.your_ip { float: left; margin-top: 2px; font-weight: bold; }
+.current_ip_address { background-color: #FCFBBB; font-weight: bold; border: solid 1px; padding: 1px 5px 0 5px; margin: 0 10px; float: left;}
+
+.emaildirect_help h3 { margin-top: 15px; }
+.emaildirect_help h2 { border-bottom: solid 1px; margin-top: 15px; color: #F15628;}
+
+.sequence_example { border: solid 1px; padding: 3px; margin-bottom: 4px; width: 100px; }

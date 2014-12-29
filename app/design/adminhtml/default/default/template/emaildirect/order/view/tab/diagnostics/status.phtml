@@ -1,0 +1,78 @@
+<?php
+
+$_order = $this->getOrder();
+$_send_field = $this->getSendField();
+$_date_sent = $this->getEmailDirectDate();
+$_can_send_orders = $this->canSendOrders();
+
+?>
+
+<div class="box-left">
+	<!--Diagnostic Information-->
+	<div class="entry-edit">
+		<div class="entry-edit-head">
+			<h4 class="icon-head head-edit-form fieldset-legend">EmailDirect Diagnostics for <?php echo Mage::helper('sales')->__('Order # %s', $_order->getRealOrderId()) ?></h4>
+		</div>
+		<div class="fieldset">
+			<table cellspacing="0" class="form-list">
+			<tbody>
+			<tr>
+				<td class="label"><label>Sent to EmailDirect</label></td>
+				<td class="value"><strong>
+					<?php if ($_date_sent == null): ?>
+						<span style='color: red'>Not Sent</span>
+					<?php else: ?>
+						<span style='color: green'><?php echo $this->formatDate($_date_sent, 'medium', true); ?></span>
+					<?php endif; ?>
+				</strong></td>
+			</tr>
+			<?php if ($_send_field == 'status'): ?>
+				<?php $send_status_list = $this->getStatusList(); ?>
+			<tr>
+				<td class="label"><label>Send on Status</label></td>
+				<td class="value"><strong>
+					<span id="send_on_status">
+						<?php echo implode("<br />",$send_status_list); ?>
+					</span></strong>
+				</td>
+			</tr>
+			<tr>
+				<td class="label"><label>Order Status</label></td>
+				<td class="value"><strong><span id="order_status"><?php echo $_order->getStatusLabel() ?></span></strong></td>
+			</tr>
+			<?php else: ?>
+				<?php $send_state_list = $this->getStateList(); ?>
+			<tr>
+				<td class="label"><label>Send on State</label></td>
+				<td class="value"><strong>
+					<span id="send_on_state">
+						<?php echo implode("<br />",$send_state_list); ?>
+					</span></strong>
+				</td>
+			</tr>
+			<tr>
+				<td class="label"><label>Order State</label></td>
+				<td class="value"><strong><span id="order_state"><?php echo $this->getOrderState() ?></span></strong></td>
+			</tr>
+			<?php endif; ?>
+			
+			<tr>
+				<td class="label"><label>EmailDirect Status</label></td>
+				<td class="value"><strong>
+					<?php if (!$this->isEmailDirectEnabled()): ?>
+						<div style='color: red'>Disabled for this Store</div>
+					<?php elseif (!$this->isEmailDirectSetup()): ?>
+						<div style='color: red'>Api Key Missing/Invalid</div>
+					<?php else: ?>
+						<div style='color: green'>Enabled</div>
+						<?php if (!$this->isSendOrdersEnabled()): ?>
+							<div style='color: red'>Sending orders is disabled</div>
+						<?php endif; ?>
+					<?php endif; ?>
+				</strong></td>
+			</tr>
+			</tbody>
+			</table>
+		</div>
+	</div>
+</div>

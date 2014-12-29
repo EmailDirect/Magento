@@ -1,0 +1,18 @@
+<?php $status = $this->getAbandonedStatus(); ?>
+
+<table class='abandoned_status'>
+	<tr>
+		<th>Store</th>
+		<th>Status</th>
+		<th>Last Run</th>
+	</tr>
+	<?php foreach ($status['stores'] as $state): ?>
+	<tr>
+		<td><?php echo $state['name']; ?></td>
+		<td><?php if ($state['enabled']): ?><span class='ab_ok'>Enabled</span><?php else: ?><span class='ab_ng'>Disabled</span><?php endif; ?></td>
+		<td><?php echo $state['last_run']; ?></td>
+		<td><?php if ($state['enabled']): ?><button onclick="setLocation('<?php echo $this->getUrl('*/*/run', array('store_id' => $state['id'])); ?>');"><span>Run Now</span></button><?php endif; ?></td>
+	</tr>
+	<?php endforeach; ?>
+</table>
+<br />

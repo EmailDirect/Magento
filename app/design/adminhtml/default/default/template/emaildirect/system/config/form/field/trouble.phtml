@@ -1,0 +1,82 @@
+<?php 
+	$element = $this->getElement();
+	
+	$enabled = $this->isLoggingEnabled();
+	
+	$enabled = true;
+?>
+<div id="<?php echo $this->getElement()->getHtmlId(); ?>" style='display:none'></div>
+<span class='trouble_status'>Status: <strong><?php if ($enabled) echo "Enabled"; else echo "Disabled" ?></strong></span>
+
+<div id='emaildirect_trouble_details'>
+<?php if ($enabled): ?>
+	<table>
+		<tr>
+			<td>Start Date:</td>
+			<td><?php echo $this->getStartDate() ?></td>
+		</tr>
+		<tr>
+			<td>Log File:</td>
+			<td><?php echo $this->getLogInfo() ?></td>
+		</tr>
+		<tr>
+			<td>EmailDirect:</td>
+			<td><?php echo $this->getEDirectInfo() ?></td>
+		</tr>
+		<tr>
+			<td>Abandoned Carts:</td>
+			<td><?php echo $this->getAbandonedInfo() ?></td>
+		</tr>
+	</table>
+	<p>Now that Troubleshooting is enabled you need to perform the actions that are currently not sending data to EmailDirect.</p>
+	<p>See the lists below to troubleshoot the areas you are having problems with.</p>
+	<p>
+		<strong>Abandoned Carts: </strong>
+		<ul>
+			<li>Make sure Abandoned Carts are enabled (see above).</li>
+			<li>Abandon at least one cart in the front end of your store. You must have a logged in account (or captured email) for a cart to be abandoned.</li>
+			<li>To test whether cron is working, wait at least one hour for the abandoned process to run before sending the report.</li>
+			<li>Go to the <a href='<?php echo $this->getUrl('ed_integration/admin_abandoned/index'); ?>'>Abandoned Carts page</a> and click "Run Now" to see if it works without cron.</li>
+		</ul>
+	</p>
+	<p>
+		<strong>Orders: </strong>
+		<ul>
+			<li>Create at least one order and process it in the Admin until it is complete.</li>
+			<li>To test Shipping Tracking, save a tracking number for a completed order.</li>
+		</ul>
+	</p>
+	<p>
+		<strong>Customers: </strong>
+		<ul>
+			<li>Add a new customer with any additional fields you have mapped.</li>
+			<li>Update a customers information and subscription preferences.</li>
+		</ul>
+	</p>
+<?php endif; ?>
+	<button id='emaildirect_send_trouble' onClick="view_details(); return false;">View information to Send to EmailDirect</button>
+</div>
+
+<script type='text/javascript'>
+function toggle_trouble()
+{
+	var form = $('config_edit_form');
+	var trouble = form['<?php echo $element->getName() ?>'];
+	var val = $(trouble).getValue()
+	
+	val = 1 - val;
+	
+	$(trouble).setValue(val);
+}
+function view_details()
+{
+	var form = $('config_edit_form');
+	var url = '<?php echo Mage::helper('emaildirect')->getAdminUrl("ed_integration/admin_troubleshooting/"); ?>';
+
+	window.location = url;
+}
+
+<?php if ($this->getElement()->getDisabled()):?>
+toggleValueElements({checked:true}, $('emaildirect_trouble').parentNode);
+<?php endif;?>
+</script>

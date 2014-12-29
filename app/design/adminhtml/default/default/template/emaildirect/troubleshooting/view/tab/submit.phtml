@@ -1,0 +1,57 @@
+<?php if ($this->isLogFileTooLarge()): ?>
+<p class='log_note'><strong>Note:</strong> The log file is too large to send the entire file. Only the last <?php echo $this->getMaxLogFileSize() ?> will be sent.</p>
+<p>To send the entire log, please compress the file and send it to <a href="mailto:<?php echo $this->getTroubleEmail() ?>?subject=<?php echo $this->getTroubleSubject() ?>"><?php echo $this->getTroubleEmail() ?></a>.<br />This file will be called <strong><?php echo $this->getLogFileName() ?></strong> and will most likely be located in the <strong>var/log</strong> folder in the root of your Magento Installation.</p>
+<br />
+<?php elseif ($this->getLogFileSize() == 0): ?>
+<p class='log_note'><strong>Note:</strong> The log file is currently empty. Sending the report is not recommended until log data has been captured.</p>
+<br />
+<?php endif; ?>
+<div class="entry-edit">
+   <div class="entry-edit-head">
+       <h4>Send Information to EmailDirect</h4>
+   </div>
+<div id="_accountbase_fieldset" class="fieldset ">
+<div class="hor-scroll">
+	<form id='emaildirect_submit_form' action='<?php echo $this->getUrl("ed_integration/admin_troubleshooting/send"); ?>' method='post'>
+		<input type="hidden" name="form_key" value="<? echo $this->getFormKey(); ?>" />
+<table cellspacing="0" class="form-list">
+<tbody>
+<tr>
+	<td class="label"><label for="customer_name">Your Name <span class="required">*</span></label></td>
+	<td class="value">
+		<input type="text" class="required-entry input-text required-entry" value="" name="customer_name" id="customer_name">
+	</td>
+</tr>
+<tr>
+	<td class="label"><label for="customer_email">Email <span class="required">*</span></label></td>
+	<td class="value">
+		<input type="text" class="input-text required-entry validate-email" value="" name="customer_email" id="customer_email">
+	</td>
+</tr>
+<tr>
+	<td class="label"><label for="customer_company">Company</label></td>
+	<td class="value">
+		<input type="text" class="input-text" value="" name="customer_company" id="customer_company">
+	</td>
+</tr>
+<tr>
+	<td class="label"><label for="customer_comments">Problem(s) encountered <span class="required">*</span></label></td>
+	<td class="value">
+		<textarea name='customer_comments' id='customer_comments' class='required-entry'></textarea>
+	</td>
+</tr>
+<tr>
+	<td class="label"></td>
+	<td class="value">
+		<button>Send to EmailDirect</button>
+	</td>
+</tr>
+</tbody>
+</table>
+</form>
+<script type="text/javascript">
+	var ed_form = new varienForm('emaildirect_submit_form' );
+</script>
+</div>
+</div>
+</div>

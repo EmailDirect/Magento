@@ -1,0 +1,11 @@
+<config>
+	<modules>
+		<EmailDirect_Integration>
+			<active>true</active>
+			<codePool>community</codePool>
+		  	<depends>
+				<Mage_Newsletter />
+			</depends>
+		</EmailDirect_Integration>
+	</modules>
+</config>

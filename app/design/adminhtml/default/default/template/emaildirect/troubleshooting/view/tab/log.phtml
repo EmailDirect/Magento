@@ -1,0 +1,72 @@
+<div class="entry-edit">
+   <div class="entry-edit-head">
+       <h4 class="icon-head"><?php echo Mage::helper('emaildirect')->__('EmailDirect Log File') ?></h4>
+       <div class="tools">
+       	<a href='#' onclick="return performRequest('log_refresh',false);">Refresh</a>
+			<span> | </span>
+			<a href='#' onclick="return performRequest('erase_log',true);">Erase Log</a>
+			<span> | </span>
+			<a href='#' onclick="return performRequest('test_logging',false);">Test Logging</a>
+		</div>
+   </div>
+   <fieldset>
+       <div class="entry-logfile" id='logfile_contents'>       	
+       	<pre><?php echo $this->getLogFile() ?></pre>
+       </div>
+   </fieldset>
+</div>
+
+<script type='text/javascript'>
+var FORM_KEY = "<?php echo $this->getFormKey();?>";
+
+function showLogFile(contents)
+{
+	$("logfile_contents").update("<pre>" + contents + "</pre>");
+	scrollToBottom();
+}
+
+function scrollToBottom()
+{
+	var container = document.getElementById("logfile_contents");
+	container.scrollTop = container.scrollHeight;
+}
+
+function performRequest(method, get_confirmation)
+{
+	if (get_confirmation == true)
+	{
+		if (!window.confirm("Are you sure?"))
+			return;
+	}
+	new Ajax.Request('<?php echo $this->getUrl('ed_integration/admin_troubleshooting/ajax') ?>',
+	{
+		parameters: {isAjax: 'true', form_key: FORM_KEY, method: method},
+		onSuccess: function(transport)
+		{
+			try 
+			{
+				if (transport.responseText.isJSON())
+				{
+					var response = transport.responseText.evalJSON()
+					if (response.error)
+					{
+						alert(response.message);
+					}
+					if(response.ajaxExpired && response.ajaxRedirect)
+					{
+						setLocation(response.ajaxRedirect);
+					}
+					
+					showLogFile(response.contents);
+				}
+			}
+			catch (e)
+			{
+				showOutput(transport.responseText);
+			}
+		}
+	});
+	
+	return false;
+}
+</script>

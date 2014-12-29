@@ -1,0 +1,26 @@
+<div id="<?php echo $this->getElement()->getHtmlId(); ?>" style='display:none'></div>
+<button id='emaildirect_signup_test' onClick="perform_signup_test(); return false;">Test Signup</button>
+<script type='text/javascript'>
+function perform_signup_test()
+{
+	var form = $('config_edit_form');
+	var signup_url = form['emaildirect_general_signup_url'];
+	var width = form['emaildirect_general_signup_width'];
+	var height = form['emaildirect_general_signup_height'];
+	var delay = form['emaildirect_general_signup_delay'];
+	var opacity = form['emaildirect_general_signup_opacity'];
+	var store = <?php echo Mage::helper('emaildirect')->getAdminStore(); ?>;
+	var url = '<?php echo Mage::app()->getStore(Mage::helper('emaildirect')->getAdminStore())->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK); ?>';
+	
+	url += '?signup_test=true&url=' + encodeURIComponent($(signup_url).getValue());
+	url += '&width=' + $(width).getValue();
+	url += '&height=' + $(height).getValue();
+	url += '&delay=' + $(delay).getValue();
+	url += '&opacity=' + $(opacity).getValue();
+	
+	window.open(url);
+}
+<?php if ($this->getElement()->getDisabled()):?>
+toggleValueElements({checked:true}, $('emaildirect_signup_test').parentNode);
+<?php endif;?>
+</script>

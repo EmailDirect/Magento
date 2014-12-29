@@ -1,0 +1,49 @@
+<?php
+
+$setup = Mage::helper('emaildirect')->config('setup') == 1;
+$api_key = Mage::helper('emaildirect')->config('apikey');
+$abandoned_status = Mage::helper('emaildirect')->getAbandonedStatus();
+$ab_enabled = $this->getAbandonedEnabled();
+$last_run = $abandoned_status['cron_last_run'];
+$last_run_label = "Cron Last Run";
+
+?>
+<div class="emaildirect-notice">
+	<h4>
+		<?php if (!$this->isWebsiteConfig()): ?>
+		<div class='abandoned'>Abandoned Cart Processing: <?php if ($ab_enabled) : ?><span class='ab_ok'>Enabled</span><?php else: ?><span class='ab_ng'>Disabled</span><?php endif; ?> - <?php echo $last_run_label ?>: <?php echo $abandoned_status['cron_last_run'] ?> - <button onclick="window.location='<?php echo $this->getUrl('ed_integration/admin_abandoned/index'); ?>'; return false;" id="emaildirect_details">Details</button></div>
+		<?php endif; ?>
+		<strong>EmailDirect Integration v<?php echo $this->getEmaildirectVersion() ?><?php if (!$setup && strlen($api_key) > 0): ?> - <span class='ab_ng'>Invalid API Key</span><?php endif; ?></strong>
+	</h4>
+</div>
+<script type='text/javascript'>
+var setup = <?php echo $setup == true ? 'true' : 'false'; ?>;
+
+document.observe('dom:loaded', function()
+{
+	if (setup)
+		$('row_emaildirect_general_apikey_instructions').hide();
+	else
+	{
+		$$('#emaildirect_general table.form-list tbody tr').each(function(item)
+		{
+			var id = item.readAttribute('id');
+			var id_parts = id.split('_');
+			
+			if (id_parts[0] == 'row')
+			{
+				var name = id_parts.slice(3).join('_');
+				switch (name)
+				{
+					case 'apikey_validation':
+					case 'heading_general':
+					case 'info':
+					case 'apikey':
+					case 'apikey_instructions': break;
+					default:	$(id).remove(); break;
+				}
+			}
+		});
+	}
+});
+</script>

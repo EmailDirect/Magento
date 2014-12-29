@@ -1,0 +1,193 @@
+<?php 
+$customer_fields = $this->getCustomerFields();
+$address_fields = $this->getAddressFields();
+$shipping_fields = $this->getShippingFields();
+?>
+
+<div class='emaildirect_help'>
+<h1>Help</h1>
+<h2>Configuration</h2>
+<h3>General Configuration</h3>
+<h4>Enabled</h4>
+<p>Must be set to Yes.</p>
+<h4>API Key</h4>
+<p>You must enter an API Key that from your EmailDirect account which can be found under the Account Setup,
+API Key tab.</p>
+<p>After entering your API Key, press the "Validate" button and once the key has been validated press the "Save Config" button.</p>
+<h4>Subscribe on Checkout</h4>
+<p>This will give you the option to choose your subscription type during the checkout process. You can make your subscription an opt-in, opt-out, or force a subscription for everyone.</p>
+<p>If you have a customized checkout, this feature may not work properly as we cannot display the subscribe checkbox on customized checkouts without modification.  </p>
+<p>The "Force Subscription" option should still work as it does not depend on interacting with your custom checkout.   Please contact us if you require assistance integrating EmailDirect with your custom checkout.</p>
+<h4>Publication</h4>
+<p>These are all of your Publications from within EmailDirect. Choose which Publication you wish to subscribe your customers too. This is required to be able to email them from your EmailDirect account.</p>
+<h4>Additional Lists</h4>
+<p>These are all of the Lists in your EmailDirect account. Selecting one or many list in this table will enable your customers to signup for sub segments, on top of the Publication. These can easily be used to get more information on specifi c topics/categories that your customers are interested in.</p>
+<h4>Source</h4>
+<p>This will allow you to defi ne the Source which will be associated with the emails added to your EmailDirect
+account.</p>
+<h4>Override Source</h4>
+<p>Selecting Yes will update the Source for any subscribers that may already be in your EmailDirect
+account. Selecting No will keep the original Source that they have.</p>
+<h3>Field Mappings</h3>
+<h4>Customer Fields</h4>
+<p>This allows you to setup the customer fields you wish to map to EmailDirect.</p>
+<?php if (count($customer_fields) == 0): ?>
+	<p>We are unable to find any customers in your database and so we cannot load a list of available fields.  Please create a customer and try again.</p>
+<?php else: ?>
+<p>Here is a list of potential fields available for you to send as part of the customer mapping. These fields are taken directly from your customer object, but note that not all of them are good candidates to map:</p>
+<table class='map_field_list'>
+<tr>
+	<?php foreach ($customer_fields as $field_column): ?>
+	<td>
+		<?php foreach ($field_column as $field): ?>
+			<?php echo $field ?><br />
+		<?php endforeach; ?>
+	</td>
+	<?php endforeach; ?>
+</tr>
+</table>
+<?php endif; ?>
+<h4>Address Fields</h4>
+<p>This allows you to setup the address fields you wish to map to EmailDirect.</p>
+<?php if (count($address_fields) == 0): ?>
+	<p>We are unable to find any customer addresses in your database and so we cannot load a list of available fields.  Please create a customer address and try again.</p>
+<?php else: ?>
+<p>Here is a list of potential fields available for you to send as part of the billing address mapping. These fields are taken directly from your billing address object, but note that not all of them are good candidates to map:</p>
+<table class='map_field_list'>
+<tr>
+	<?php foreach ($address_fields as $field_column): ?>
+	<td>
+		<?php foreach ($field_column as $field): ?>
+			<?php echo $field ?><br />
+		<?php endforeach; ?>
+	</td>
+	<?php endforeach; ?>
+</tr>
+</table>
+<?php endif; ?>
+<p>The following custom address fields are available:</p>
+<table class='map_field_custom'>
+	<tr>
+		<td>state_code</td>
+		<td>The region_id field is used to load the 2 character state code for the address.</td>
+	</tr>
+</table>
+<h4>Shipping Fields</h4>
+<p>This allows you to setup the shipping fields you wish to map to EmailDirect.</p>
+<p>The following fields are available for mapping:</p>
+<table class='map_field_list'>
+<tr>
+	<?php foreach ($shipping_fields as $field_column): ?>
+	<td>
+		<?php foreach ($field_column as $field): ?>
+			<?php echo $field ?><br />
+		<?php endforeach; ?>
+	</td>
+	<?php endforeach; ?>
+</tr>
+</table>
+<h3>Orders</h3>
+<h4>Send orders to EmailDirect</h4>
+<p>Selecting Yes here will send all orders that are made in Magento to EmailDirect's Purchase Behavior. This will allow you to filter within EmailDirect on Product, Order and Category Parameters.</p>
+<h4>Send Orders based on</h4>
+<p>Choose whether orders will be sent based on order State or Status.</p>
+<h4>State or Status Options</h4>
+<p>This allows you to choose which order state(s)/statuses will be used to determine when an order will be sent to EmailDirect.</p>
+<p>This will include all custom states or statuses that you have created within your Magento store and selecting multiple options will not send the order twice.</p>
+<h4>Save Latest Order Information</h4>
+<p>Selecting Yes will update a subscribers record with detailed information for up to 3 products per order.</p>
+<p>For each product, the following fields will be sent:</p>
+<table class='map_field_list'>
+<tr>
+	<td>Product Name<br />Parent Name (for complex products)<br />SKU<br />URL<br />ImageURL<br />Description<br />Cost</td>
+</tr>
+</table>
+<p>This information can be used to personalize your emails for Product Review emails, Thank You emails, etc.. Old information
+will be erased when a new order is made.</p>
+<h4>Send Orders in the background?</h4><p>Allows you to send orders through a cron process.</p>
+<h4>Send in background only?</h4><p>Orders will only be sent in the background process.</p>
+<h3>Abandoned Carts</h3>
+<h4>Add Abandoned Carts to EmailDirect</h4>
+<p>Selecting Yes will update a subscribers record with detailed information
+for up to 3 products per abandoned cart.</p>
+<p>For each product, the following fields will be sent:</p>
+<table class='map_field_list'>
+<tr>
+	<td>Product Name<br />SKU<br />URL<br />ImageURL<br />Description<br />Cost</td>
+</tr>
+</table>
+<p>This information can be used to personalize your emails for Abandoned Cart emails. Old
+information will be erased when a new cart is abandoned.</p>
+<h4>Abandoned Time</h4>
+<p>This is the amount of time before a cart is considered abandoned.</p>
+<h4>Abandoned Publication</h4>
+<p>This is the Publication that you will put abandoned shoppers into. Some companies like
+to make this a separate Publication that a user can unsubscribe from.</p>
+<h4>Abandoned List</h4>
+<p>These are all of the Lists in your EmailDirect account. Selecting one of these will add your
+customers to this list, on top of the abandoned Publication that is chosen. This can be used to easily trigger abandoned
+cart workflows or for retargeting campaigns by bulk campaigns.</p>
+<h4>Capture Guest Emails?</h4>
+<p>When enabled, this feature will capture guest emails from various forms within the site to
+be used with Abandoned Carts.</p>
+<h3>Abandoned Cart Sequences</h3>
+<h4>Add a sequence value to each abandoned cart?</h4>
+<p>This will allow you to assign a sequence of values to your subscribers, one for each abandoned shopping cart. For every abandoned cart, the next value in the list will be applied and over write any past values that were assigned.</p>
+<h4>Sequence Database Field</h4>
+<p>This is the field within EmailDirect that the sequence will be stored in.</p>
+<h4>Sequence Options</h4>
+<p>Put a list of sequences that will help you identify and filter for A/B testing your abandoned cart
+process. This can include any identifying information and can include as many as you want, enter one per line.</p>
+<p>Example:</p>
+<div class='sequence_example'>
+A<br />
+B<br />
+C<br />
+</div>
+<p>Or</p>
+<div class='sequence_example'>
+1<br />2<br />3<br />4<br />5
+</div>
+<h3>EmailDirect Signup Form</h3>
+<h4>Show EmailDirect Signup Form</h4><p>This will allow a pop up on your homepage that shows an EmailDirect form for
+capturing email addresses.</p>
+<h4>URL to Signup Form</h4><p>Input the Form URL given to you from within your EmailDirect account. This is given after you
+design and save a signup form.</p>
+<h4>Delay before showing</h4><p>This will be the amount of seconds before the popup shows.</p>
+<h4>Recurrence</h4><p>This is the time until the Signup Form displays again for any particular visitor.</p>
+<h4>Width of Form</h4><p>Should correlate with your signup page design to properly show your entire message.</p>
+<h4>Height of Form</h4><p>Should correlate with your signup page design to properly show your entire message.</p>
+<h4>Opacity of Background</h4><p>this will determine the darkness of the users screen, outside the popup.</p>
+<h4>Test Signup Form</h4><p>Allows for testing without saving the configuration.</p>
+<h4>Activate Signup Form</h4><p>Activates the form with the above settings.</p>
+<h2>Export Options</h2>
+<h3>Order Exports</h3>
+<h4>Include Orders already sent?</h4>
+<p>This will allow you to include orders that may have previously been sent to EmailDirect and may cause duplicates. We recommend leaving this option set to No, unless you have deleted orders within EmailDirect and wish to get them back.</p>
+<h4>Order Date Range</h4>
+<p>Select the range of dates that you wish to collect orders from. If the extension is pushing new orders over to EmailDirect, select the date ranges in which this process was not running to avoid duplicate orders.</p>
+<h4>Export Orders</h4>
+<p>This will export your orders and present them to you in a .csv file that you can download. It will also add them to your EmailDirect FTP. To import these orders from within EmailDirect, go to the Purchase Behavior tab, then select Orders and next to the Add New Order button, you can select a drop down to choose Import Order File.</p>
+<p>Once on this page, select the file from the FTP to import your past orders. Be sure to map the fi elds correctly to the
+correctly named database columns.</p>
+<h3>Category Exports</h3>
+<h4>Include Disabled Products</h4><p>This will grab all products in Magento to be passed over to EmailDirect, even those
+which have been disabled.</p>
+<h4>Export Products</h4><p>This will export your Products/Categories and present them to you in a .csv fi le that you can
+download. It will also add them to your EmailDirect FTP. To import these orders from within EmailDirect, go to the
+Purchase Behavior tab, then select Products and next to the Add New Product button, you can select a drop down
+to choose Import File. Once on this page, select the fi le from the FTP or the .csv from your desktop to import your
+categories and products.</p>
+<!-- ABANDONED CARTS -->
+<h2><a name='abandoned_carts'></a>Abandoned Carts</h2>
+<p>In order for abandoned carts to be processed automatically, cron must be running on your server.</p>
+<p>The Abandoned Cart process is scheduled to run every hour on the hour so if you are seeing a warning icon <img src="<?php echo Mage::getDesign()->getSkinUrl('images/warning_msg_icon.gif') ?>" /> next to your cron Last Run Date (and the module has not just been recently installed) then you need to verify that cron is running properly.</p>
+<p>Please visit this <a href="http://www.magentocommerce.com/wiki/1_-_installation_and_configuration/how_to_setup_a_cron_job">link</a> for detailed information on cron setup in the Magento Wiki.</p>
+<h2><a name='diagnostics'></a>Diagnostics</h2>
+<p>Diagnostics allow you to test specific parts of the EmailDirect process. They can be enabled in the settings tab.</p>
+<p>If EmailDirect is not enabled or setup for a store, some diagnostics can still be performed but the output may not be 100% accurate depending on what configuration values have been specified.</p>
+<h3>Orders</h3>
+<p>To run Diagnostics on an order, go to the Order View page and select the <strong>EmailDirect Diagnostics</strong> tab on the left side of the screen.</p>
+<h3>Abandoned Carts</h3>
+<p>To run Diagnostics on an abandoned cart, go to the <a href='<?php echo $this->getUrl('ed_integration/admin_abandoned/index') ?>'>EmailDirect Abandoned Carts Page</a> and click on a row to run diagnostics on that cart.</p>
+</div>

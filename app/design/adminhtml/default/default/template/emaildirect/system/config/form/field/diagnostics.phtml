@@ -1,0 +1,20 @@
+<?php 
+	$element = $this->getElement();
+	
+	$enabled = $this->getDiagnosticStatus();
+?>
+<div id="<?php echo $this->getElement()->getHtmlId(); ?>" style='display:none'></div>
+<span class='<?php echo $enabled ? "ab_ok" : "ab_ng" ?>'><?php echo $enabled ? "Enabled" : "Disabled" ?></span>
+<br />
+<br />
+<button id='emaildirect_send_trouble' onClick="view_details(); return false;">Change Troubleshooting Settings</button>
+<script type='text/javascript'>
+
+function view_details()
+{
+	var form = $('config_edit_form');
+	var logging_url = '<?php echo Mage::helper('emaildirect')->getAdminUrl("ed_integration/admin_troubleshooting/", array('tab' => 'troubleshooting_view_tabs_trouble_settings')); ?>';
+
+	window.location = logging_url;
+}
+</script>

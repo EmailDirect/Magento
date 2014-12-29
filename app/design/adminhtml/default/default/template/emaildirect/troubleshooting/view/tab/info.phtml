@@ -1,0 +1,63 @@
+<?php
+$environment = $this->getEnvironmentInfo(); 
+$store_configuration = $this->getConfigurationInfo();
+$row = "even";
+?>
+
+<div class="entry-edit">
+   <div class="entry-edit-head">
+       <h4 class="icon-head"><?php echo Mage::helper('emaildirect')->__('General Configuration') ?></h4>
+   </div>
+</div>
+<div class="grid np">
+  <div class="hor-scroll">
+    <table cellspacing="0" class="data ed-config-table">
+        <thead>
+            <tr class="headings">
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+	<?php foreach ($environment as $key => $value): ?>
+	<tbody class="<?php echo $row ?>">
+	<tr class='border'>
+		<td><?php echo $key; ?></td>
+		<td><?php echo $value; ?></td>
+	</tr>	
+	</tbody>
+	<?php $row = ($row == 'even' ? 'odd' : 'even'); ?>
+	<?php endforeach; ?>	
+	</table>
+  </div>
+</div>
+<br />
+<?php foreach ($store_configuration as $code => $configuration): ?>
+<div class="entry-edit">
+   <div class="entry-edit-head">
+       <h4 class="icon-head">Module Configuration for store: <?php echo $code ?></h4>
+   </div>
+</div>
+<div class="grid np">
+  <div class="hor-scroll">
+    <table cellspacing="0" class="data ed-config-table">
+        <thead>
+            <tr class="headings">
+                <th>Setting</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+   <?php $row = 'even';
+	foreach ($configuration as $key => $value): ?>
+	<tbody class="<?php echo $row ?>">
+	<tr class='border'>
+		<td><?php echo $key; ?></td>
+		<td><?php echo $value; ?></td>
+	</tr>	
+	</tbody>
+	<?php $row = ($row == 'even' ? 'odd' : 'even'); ?>
+	<?php endforeach; ?>	
+	</table>
+  </div>
+</div>
+<br />
+<?php endforeach; ?>
